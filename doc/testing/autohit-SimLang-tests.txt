@@ -1,0 +1,38 @@
+# catalog of autohit tests
+# 
+# gpre = good, but needs setup
+#
+# compiler tests
+autohit/test/scripts/compile-test1	cbad	serious compile errors w/parsing errors
+autohit/test/scripts/compile-test2	cbad	serious compile errors w/parsing errors
+autohit/test/scripts/compile-test3	cgood	successful compile
+autohit/test/scripts/compile-test4	cbad	non-fatal compile errors
+autohit/test/scripts/compile-test5	cbad	make sure labels can't be inside scopes
+autohit/test/scripts/compile-test6	cbad	make sure labels can't be duplicated
+#
+# simlang tests GOOD
+autohit/test/scripts/testreturn1	good	test the <return/> command
+autohit/test/scripts/testreturn1-sub1	sub	subroutine for testreturn1 test
+autohit/test/scripts/working1		good	Test SET, MATH, CALL, Call_LOG
+autohit/test/scripts/working2		good 	Test MATH, FOR, CALL, and SUBR
+autohit/test/scripts/working2-sub1	sub	subroutine for working2 test
+autohit/test/scripts/working3		good 	Test MATH(* and /), If, WHILE, and Call_DATE
+autohit/test/scripts/working4		good 	Test Labels, GOTO, and pass by reference.
+autohit/test/scripts/working5		good 	Test IF operations
+autohit/test/scripts/working6		good 	Test CALL_WAIT
+autohit/test/scripts/working7		good	Test prop passing
+autohit/test/scripts/working8		good	Test ASSERT and CALL_GET_SPROP
+autohit/test/scripts/working9		good 	Nested variable manipulation
+#
+# simlang tests BAD
+autohit/test/scripts/notworking1	good 	Test MATH, FOR, CALL, and SUBR
+#
+# CALL tests
+autohit/test/scripts/call-table1	good	Test NEW_TABLE, INSERT_TABLE, GET_TABLE, DELETE_TABLE, and REMOVE_TABLE
+autohit/test/scripts/call-2		good	Test LOAD_UNI2STRING, EVALSTRING, and buffers		
+#
+# MODULE tests
+autohit/test/scripts/stopwatch1		good 	Test StopwatchModule
+autohit/test/scripts/writer1		good 	Test TextWriterModule and BUFFERS
+autohit/test/scripts/mime1		good 	Test MimeMessageModule and <METHOD>
+autohit/test/scripts/smtp1		gpre 	Small test of SimpleSmtpModule

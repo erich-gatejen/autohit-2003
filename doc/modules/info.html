@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Modules</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#F0E6E1">
+Use the calls to create, access, and destroy modules. They will be put<br>
+in the VM persist. Each will have their own local variables (java scope).
+<p>Module instances exist only with the VM that creates them. They do not have<br>
+  to enforce thread safety, since it shouldn't be an issue for them. Therefore,<br>
+  you should not try to find ways around this limitation. If you need VMs<br>
+  to talk, use other mechanisms, instead of sharing Modules.</p>
+<p>Modules should *NOT* implement any static fields!!! That could be very, <br>
+  very bad.</p>
+<p>&nbsp;</p>
+</body>
+</html>

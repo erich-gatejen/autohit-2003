@@ -1,0 +1,11 @@
+memory -
+	store		vm only, scoped, stacked
+	persist		vm only, not-scoped, named, one named instance
+	environment	context, shared, one named instance
+	universe	system or greater, one named/qualified instance
+
+
+
+PRIMATIVE	string
+
+OBJECT		

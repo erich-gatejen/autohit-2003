@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Second working test script
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/testreturn1-sub1">Test Return 1 Subroutine 1</name>
+   	<version	num="1"/>
+   	<note>
+   		This script should actually work.  This is meant to be called by testreturn1
+   	</note>
+   	<io>
+   	   	<input name="Input"/>
+   		<output name="subresult"/>
+   	</io>
+   
+   </info>
+   
+   <code>
+
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:testreturn1-sub1 start"/></call>
+
+	<!-- MATH -->
+	<set name="Variable" value="1000" new="new"/>
+        <math left="Input" oper="+" eval="$Variable$" output="subresult"/>
+	<call name="LOG">
+		<set name="entry" eval="TESTRETURN1-SUB: do some math with IO.  subresult=$subresult$"/></call>
+
+	<!-- do return -->
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:testreturn1-sub1 done (now returning)"/></call>
+	<return/>
+	
+	<!-- this should be unreachable -->
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:testreturn1-sub1: TEST FAILED.  TEST FAILED.  TEST FAILED.  This is after the return.  RETURN failed!"/></call>		
+   </code>
+
+</sim>

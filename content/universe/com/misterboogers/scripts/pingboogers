@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Please do not pound my poor little boogers!  Point this somewhere else.
+-->
+<sim>
+   <info> 
+   	<name	uid="com/misterboogers/scripts/pingboogers">Ping Mister Boogers</name>
+   	<version	num="1"/>
+   	<note>
+   		See if mister boogers is there.   This script is also used as a test.</note>
+   	<io></io>
+   </info>
+   <code>
+	<set name="site" value="www.misterboogers.com" new="new"/>
+	<call name="LOG">
+		<set name="entry" eval="Target set as $site$"/></call>
+
+	<!-- SETUP MODULE -->        
+	<call name="LOG">
+		<set name="entry" value="Instantiate an HTTP module"/></call>
+	<call name="INSTANCE">
+		<set name="type" value="autohit.call.modules.SimpleHttpModule"/>
+		<set name="name" value="touchboogers"/></call>
+	
+	<!-- FIRST SESSION -->
+	<call name="LOG">
+		<set name="entry" value="Session 1 - pull index and list"/></call>
+	<call name="METHOD"><set name="name" value="touchboogers"/>	
+		<set name="method" value="start"/>
+		<set name="address" eval="$site$"/></call>
+	<call name="METHOD" result="page1"><set name="name" value="touchboogers"/>	
+		<set name="method" value="get"/>
+		<set name="url" value="/"/></call>
+	<call name="METHOD" result="page2"><set name="name" value="touchboogers"/>	
+		<set name="method" value="get"/>
+		<set name="url" value="/misterboogers/index.html"/></call>	
+
+	<call name="LOG">
+		<set name="entry" eval="Page1 data is $page1$"/></call>	
+	<call name="LOG">
+		<set name="entry" eval="Page2 data is $page2$"/></call>
+	
+	<!-- DONE -->
+	<call name="METHOD"><set name="name" value="touchboogers"/>	
+		<set name="method" value="done"/></call>
+	<call name="FREE">
+		<set name="name" value="touchboogers"/></call>	
+	<call name="LOG">
+		<set name="entry" value="Done with boogers"/></call>
+	
+   </code>
+</sim>

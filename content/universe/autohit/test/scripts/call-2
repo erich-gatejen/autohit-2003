@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Tests the table calls
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/call-2">Call test 2</name>
+   	<version	num="1"/>
+   	<note>
+   		This script should actually work.
+   		Test LOAD_UNI2STRING and EVALSTRING
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:call-2 start"/></call>
+
+	<set name="Datestamp" value="0" new="new"/>
+	<call name="DATE" result="Datestamp"></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:call-2: The datestamp is set as: $Datestamp$"/></call>
+		
+	<!-- set test data -->
+	<set name="source" value="EMPTY" new="new"/>
+	<set name="destination" value="EMPTY" new="new"/>
+	<set name="one" value="1" new="new"/>
+	<set name="two" value="2" new="new"/>
+	<set name="number" value="seven" new="new"/>
+	<set name="place" value="continent" new="new"/>	
+	<set name="thang" value="metaserver" new="new"/>	
+
+	<!-- set buffer -->	
+	<buffer name="intermission" clear="clear"></buffer>
+	<buffer name="intermission" value="This is (no CR/LF)"></buffer>   
+        <buffer name="intermission">the (CR/LF)
+intermission
+line.  (no CR/LF, two spaces)  </buffer>
+        <buffer name="intermission" value="This is Now back to your regularly scheduled programming."></buffer>
+	
+	<!-- get source -->
+	<call name="LOAD_UNI2STRING" result="source">
+		<set name="uniobj" value="autohit/test/objects/eval-text.txt"/></call>
+
+	<!-- eval and print it -->
+	<call name="EVALSTRING" result="destination">
+		<set name="string" ref="source"/></call>
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:output start ----"/></call>
+	<call name="LOG">
+		<set name="entry" ref="destination"/></call>	
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:output end ----"/></call>
+			
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:call-2 done"/></call>
+	
+   </code>
+
+</sim>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Module test 2
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/process">Process checker test</name>
+   	<version	num="1"/>
+   	<note>
+   		Test CHECK_PROCESS
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:process start"/></call>
+	
+	<!-- run the other process -->
+	<call name="RUN" result="go1">
+		<set name="name" value="autohit/test/scripts/snoozeprocess" new="new"/>
+	</call>	
+
+	<!-- wait until it is done -->
+	<set name="next" value="false" new="new"/>	
+	<call name="CHECK_PROCESS" result="next"><set name="pid" ref="go1"/></call>
+	<while name="next" value="true">
+		<call name="LOG"><set name="numeric" value="999"/> 
+			<set name="entry" value="TEST:GOOD:process waiting"/></call>		
+		<call name="WAIT"><set name="millis" value="60000"/></call>
+		<call name="CHECK_PROCESS" result="next"><set name="pid" ref="go1"/></call>
+	</while>
+	
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:process done"/></call>		
+	
+   </code>
+
+</sim>

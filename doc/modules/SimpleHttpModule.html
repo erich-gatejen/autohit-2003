@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#F0E6E1">
+<p>name: <strong><font size="+1">SimpleHttpModule</font></strong><br>
+  class: <strong>autohit.call.modules.SimpleHttpModule</strong></p>
+<p>This is a simple http module that supports GET.</p>
+<p>You must &quot;start&quot; a session before you can &quot;get&quot; anything. 
+  Each session will act as a separate client, just like a web browser. Setting 
+  your credentials is optional. Be sure to do a &quot;done&quot; when you are 
+  done with a session. The module is valid for more than one session, but only 
+  one at a time. You can have more than one instance of this module.</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>start<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;address&quot;</strong> (REQUIRED): Set the address of the 
+      target. Use the DN name only.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;port&quot;</strong> (OPTIONAL): Sets the port. It will default 
+      to 80.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">description:</div></td>
+    <td>Starts a session.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>starthttps<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;address&quot;</strong> (REQUIRED): Set the address of the 
+      target. Use the DN name only.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;port&quot;</strong> (OPTIONAL): Sets the port. It will default 
+      to 443.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">description:</div></td>
+    <td>Starts an https session. This will accept an unvalidated cert from the 
+      server. </td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>get<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;url&quot;</strong> (REQUIRED): Get a document form this 
+      URL. It should include only the path portion of the URL. <br>
+      i.e.&quot;/goats/index.html&quot;</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">returns: </div></td>
+    <td>A String representing the returned data, encoded per Method.getResponseBodyAsString() 
+      from the Apache HttpClient package.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">logs:</div></td>
+    <td>The result line</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="38"><div align="right">description:</div></td>
+    <td>Does an http GET operation. If an authentication request is made by the 
+      server, the HttpClient with attempt to complete the authentication. It will 
+      use any credentials set by the 'set_credentials&quot; method.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>post<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;url&quot;</strong> (REQUIRED): Get a document form this 
+      URL. It should include only the path portion of the URL. <br>
+      i.e..&quot;/goats/index.html&quot;</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="50"><div align="right"></div></td>
+    <td><strong>&quot;table&quot;</strong> (REQUIRED): A table in the persist 
+      that contains NV data for the post. Technically, it can be empty. Only values 
+      that are Strings are used. You can use the *_TABLE calls to construct the 
+      table in persist.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="44"><div align="right">returns: </div></td>
+    <td>A String representing the returned data, encoded per Method.getResponseBodyAsString() 
+      from the Apache HttpClient package.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">logs:</div></td>
+    <td>The result line</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="38"><div align="right">description:</div></td>
+    <td>This does an http POST operation. If an authentication request is made 
+      by the server, the HttpClient with attempt to complete the authentication. 
+      It will use any credentials set by the 'set_credentials&quot; method.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>done<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td>Closes a session and closes the client.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>timeout<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;millis&quot;</strong> (REQUIRED): The timeout period in 
+      milliseconds. </td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td>Set the connection timeout period. A session must be started. If one isn't, 
+      you'll get a fault.</td>
+  </tr>
+</table>
+<br>
+<p><font size="-6">AUTOHIT 2003<br>
+  MODULES DOCUMENTATION<br>
+  Copyright Erich P Gatejen (c) 1989,1997,2003,2004<br>
+  See license for details.</font></p>
+</body>
+</html>

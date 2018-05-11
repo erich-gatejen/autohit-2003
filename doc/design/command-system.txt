@@ -1,0 +1,23 @@
+ * Command sequence is as follows:
+ * 1- Command class instantiation
+ * 2- Get command parameters.  Kept in a vector.  Contstructed with
+ * the helper static method createCommand()
+ * 		0-UNI 		- (has default) Universe
+ * 		1-RESPONSE 	- (has default) Injector for control response channel
+ * 		2-TARGET	- (has default) Injector for target channel
+ * 		3-CLASS		- Implementation class
+ * 		4-COMMAND	- Command string
+ * 		5-OBJECT	- Data object
+ * 3- Call the command with call()
+ * 		- Setup base
+ * 4- Call verify in subclass()
+ * 		- Subclass should call assert method in base for required/optional 
+ *        for the parameters.
+ * 		- The assert method will set the object fields.
+ * 		- The base assert will throw an exception for any error.  It
+ * 		  MUST be passed along.  The base will handle any reporting.
+ * 5- Base will accept the command.
+ * 6- Passed into chained execute()
+ * 		- Problems should be thrown as exceptions
+ * 7- Base will ack or nak the command.
+ * 8- Return a receipt

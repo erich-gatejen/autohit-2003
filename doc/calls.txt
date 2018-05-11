@@ -1,0 +1,255 @@
+AUTOHIT 2003 
+
+CALLS DOCUMENTATION
+
+Copyright Erich P Gatejen (c) 1989,1997,2003,2004,2005
+See license for details.
+
+===========================================================================
+ BASIC CONCEPTS
+===========================================================================
+
+Calls are threadsafe.  They share no data that isn't already controlled 
+(and made safe) by another subsystem.
+
+===========================================================================
+ BUILD IN CALLS
+===========================================================================
+
+===========================================================================
+name: DATE
+parameters: none
+returns: formatted date
+uses: logger
+
+This will return a formatted date string.
+
+===========================================================================
+name: LOG
+parameters:
+	entry= text entry
+	numeric= (OPTIONAL) Numeric value.		
+returns: empty string
+uses: logger, core
+
+Makes a log entry.  If you add a numeric value, you should make it
+between 500 and 999.
+
+	public final static int CODE_USER_INFO_FLOOR = 500;
+	public final static int CODE_USER_INFO_TOP = 999;
+
+===========================================================================
+name: INSTANCE
+parameters:
+	type= module type name.   It is a valid java 
+	      classname.  			(REQUIRED)
+	name= to call the instance.  if it already exists, 
+              nothing will happen.		(REQUIRED)
+returns: empty string.
+uses: logger, core, uni
+
+Executes a method call into a Module instance.
+
+===========================================================================
+name: METHOD
+parameters:
+	name= module instance name 	(REQUIRED)
+	method= method name 		(REQUIRED)
+returns: defined by the method, but will always be a String.
+uses: logger, core
+
+Makes a module instance.
+
+===========================================================================
+name: FREE
+parameters:
+	name= name of the module to free	(REQUIRED)
+returns: empty string.
+uses: logger, core
+
+Executes a method call into a Module instance.
+
+Frees a module instance.
+
+===========================================================================
+name: NEW_TABLE
+parameters:
+	name= name to give the table.  Must be unique to the 
+              persist.	(REQUIRED)
+returns: empty string.
+uses: logger, core
+
+Creates a table in persist.  You can use the following calls on the 
+table:  INSERT_TABLE, GET_TABLE, DELETE_TABLE, REMOVE_TABLE.
+
+===========================================================================
+name: INSERT_TABLE
+parameters:
+	name= name of the table in which to insert.  (REQUIRED)
+	n= name of the table entry.                  (REQUIRED)
+	v= value of the table entry.                 (REQUIRED)
+returns: empty string.
+uses: logger, core
+
+Inserts a name(n)/value(v) into a TABLE in persist.  It will replace the
+name(n)/value(v) is the name alredy exists.
+
+===========================================================================
+name: GET_TABLE
+parameters:
+	name= name of the table in which to insert.  (REQUIRED)
+	n= name of the table entry.                  (REQUIRED)
+returns: String value for the entry
+uses: logger, core
+
+Gets a value from a TABLE in persist.  You can only get strings!  Trying to
+get anything else will cause an error and return nothing.  All other errors
+will cause faults, since at this point the script must be out of control.
+
+===========================================================================
+name: QUERY_TABLE
+parameters:
+	name= name of the table in which to insert.  (REQUIRED)
+	n= name of the table entry.                  (REQUIRED)
+returns: String value for the entry
+uses: logger, core
+
+Gets a value from a TABLE in persist.  You can only get strings!  If the 
+item is not in the table, it will return an empty string.  it will throw
+a fault only if the table does not exist.
+
+===========================================================================
+name: DELETE_TABLE
+parameters:
+	name= name of the table from which to delete.  (REQUIRED)
+	n= name of the table entry.                    (REQUIRED)
+returns: empty string.
+uses: logger, core
+
+Delete an entry from a TABLE in persist.
+
+===========================================================================
+name: REMOVE_TABLE
+parameters:
+	name= name of table to remove.	(REQUIRED)
+returns: empty string.
+uses: logger, core
+
+Remove a table in persist.
+
+NOTE: All entries will fall out of scope of the persist, unless referenced
+by something else.
+
+===========================================================================
+name: DUMP2LOG
+parameters:
+	text= name of text to dump.	(REQUIRED)
+returns: String containing the name, but not the path, of the file.
+uses: logger, core
+
+Dumps text to a file in the log directory.  It will (try to) create a 
+unique file.  it will report the name.
+
+===========================================================================
+name: WAIT
+parameters:
+	millis= name of text to dump.	(REQUIRED)
+returns: nothing.
+uses: logger, core
+
+Waits for specified milliseconds.  The paramater 'millis' must be a parsable
+integer or long.
+
+===========================================================================
+name: GET_SPROP
+parameters:
+	name= name of system property.	(REQUIRED)
+returns: value of systme property or nothing if it doesn't exist.
+uses: logger, core, sc
+
+Returns a system property.  If there is no system property with the 
+passed name, then return nothing.
+
+===========================================================================
+name: UNIQUE_INT
+parameters: none
+returns: a unique integer
+uses: logger, sc
+
+Returns unique integer.  It is unique to the SystemContext.  It is as a
+suitable unique ID for core items.
+
+===========================================================================
+name: GLOBAL_UNIQUE_INT
+parameters: none
+returns: a unique integer
+uses: logger, sc
+
+Returns an integer unique to the whole system (as long as the system hasn't 
+been running for more than 5 months).
+
+===========================================================================
+name: EVALSTRING
+parameters: 
+	string= string to eval (REQUIRED)
+returns: evaluated string.
+uses: logger, sc
+
+Uses the String Processor to evaluate a string.  The rules are:
+	$variable$ is a variable
+	|com.berzerq.uni.test2.test7| is a universe object (NOT IMPLEMENTED)
+	{goats{ is a buffer
+All are escaped with doubles.  $$, ||, and {{
+
+===========================================================================
+name: LOAD_UNI2STRING
+parameters: 
+	uniobj= universe object to load (REQUIRED)
+returns: 
+	A string representation of the universe object
+uses: logger, sc
+
+Load a universe object to a store string.
+
+===========================================================================
+name: RANDOM
+parameters: 
+	top= highest possible number
+returns: 
+	string= the number
+uses: logger
+
+Returns a random number between 0 and top, inclusive.
+
+===========================================================================
+name: UNISIZE
+parameters: none
+	uniobj= universe object to size (REQUIRED)
+returns: 
+	The size of the object
+uses: logger, sc
+
+The size of the universe object.  If the object is empty, doesn't exist,
+or there is a universe error, it will return 0.
+
+===========================================================================
+name: RUN
+parameters:
+	name= name script to run.	(REQUIRED)
+returns: PID of new VM process
+uses: logger, core, sc
+
+Runs a new script in a new VM.  It will use the root logger to report the
+success or failure of the new VM startup.  It will let the VM create its
+own logfile for actual execution.  It only supports SimVM for now.
+
+===========================================================================
+name: CHECK_PROCESS
+parameters:
+	pid= PID for the process checked.	(REQUIRED)
+returns: It will return TRUE if it is running, otherwise FALSE.
+uses: logger, core, sc
+
+It will see if a PID is still alive.  It will return TRUE if it is, 
+otherwise FALSE.
+

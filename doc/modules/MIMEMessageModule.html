@@ -1,0 +1,506 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#F0E6E1">
+<p>name: <strong><font size="+1">MIMEMessageModule</font></strong><br>
+  class: <strong>autohit.call.modules.MIMEMessageModule</strong></p>
+<p>This will form MIME messages. It will do single part or multipart. Start a 
+  session with start(), for single part, or multipart() for multipart messages. 
+  You can start a new session at any time. You must save() the message before 
+  you dump it to a string, tostring(), or Universe object, touni().</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>start<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">description:</div></td>
+    <td>Start a new message, with no multipart.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>multipart<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr> 
+    <td height="25"><div align="right">description:</div></td>
+    <td>Start a new multipart message.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>setencoding<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;enc&quot;</strong> (REQUIRED): Textual name for the Charset.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="82"><div align="right">description:</div></td>
+    <td>Set encoding to use for subsequent header operations. The encoding needs 
+      to be the textual name for a supported Charset. This varies by vm, though 
+      if you pull one from the MIME specifications, it should work. &quot;us-ascii&quot; 
+      will always work. If you do not call this, the default Charset for the system 
+      will be used (always a safe bet).</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>resetencoding<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr> 
+    <td height="25"><div align="right">description:</div></td>
+    <td>Use the default encoding for subsequent header operations. This will undo 
+      a &quot;setencoding&quot; method.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>from<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;address&quot;</strong> (REQUIRED): Valid internet address.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;personal&quot;</strong> (OPTIONAL): A string representing 
+      the 'personal' name.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="44"><div align="right">description:</div></td>
+    <td> Set the FROM address. There can only be one, so subsequent calls will<br>
+      overwrite the value.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>to<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;address&quot;</strong> (REQUIRED): Valid internet address.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;personal&quot;</strong> (OPTIONAL): A string representing 
+      the 'personal' name.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Add a TO address. You can add as many as you want (and memory can handle).</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>cc<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;address&quot;</strong> (REQUIRED): Valid internet address.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;personal&quot;</strong> (OPTIONAL): A string representing 
+      the 'personal' name.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Add a CC address. You can add as many as you want (and memory can handle).</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>bcc<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;address&quot;</strong> (REQUIRED): Valid internet address.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;personal&quot;</strong> (OPTIONAL): A string representing 
+      the 'personal' name.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Add a BCC address. You can add as many as you want (and memory can handle).</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>subject<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;string&quot;</strong> (REQUIRED): A string containing the 
+      subject.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Set the SUBJECT field. There can only be one, so subsequent calls will 
+      overwrite the value.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>header<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;n&quot;</strong> (REQUIRED): The header item name.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;v&quot;</strong> (REQUIRED): The header item value.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Add a header as a name/value pair. You can add as many as you want (and 
+      memory can handle).</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>addcontent<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;text&quot;</strong> (REQUIRED): The text to add as the message 
+      content. </td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="33"><div align="right">description:</div></td>
+    <td> Set the content text in a non-multipart message. If you call with a multipart() 
+      message, you will get an error. The message content will be text/plain.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>addpart<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;text&quot;</strong> (REQUIRED): The text content of the 
+      part.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;contentid&quot;</strong> (REQUIRED): The contentid for the 
+      part.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;description&quot;</strong> (REQUIRED): The description for 
+      the part.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Add a part to a multipart message. If you call with a start() message, 
+      you will get an error. The message content will be text/plain. You can add 
+      as many as you want (and memory and MIME can handle).</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>addpartenc<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;text&quot;</strong> (REQUIRED): The text content of the 
+      part.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;tenc&quot;</strong> (REQUIRED): Encoding to use for the 
+      content.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;contentid&quot;</strong> (REQUIRED): The contentid for the 
+      part.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;cenc&quot;</strong> (REQUIRED): Encoding to use for the 
+      content id field.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;description&quot;</strong> (REQUIRED): The description for 
+      the part.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;denc&quot;</strong> (REQUIRED): Encoding to use for the 
+      description field.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Add a part to a multipart message. If you call with a start() message, 
+      you will get an error. The message content will be text/plain. You can add 
+      as many as you want (and memory and MIME can handle). It will encode the 
+      fields as specified in the parameters. It supports the same encodings as 
+      the &quot;setencoding&quot; method. See that method for more information.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>addpartuni<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;uniobj&quot;</strong> (REQUIRED): The name of the universe 
+      object to add.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;contentid&quot;</strong> (REQUIRED): The contentid for the 
+      part.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;description&quot;</strong> (REQUIRED): The description for 
+      the part.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;type&quot;</strong> (REQUIRED): The content type, as a MIME 
+      type string.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Add a part to a multipart message. If you call with a start() message, 
+      you will get an error. You can add as many as you want (and memory and MIME 
+      can handle). The content will be pulled from a universe item. It can be 
+      virtually any kind of object, even raw binary will be handled properly. 
+      The type will not be verified against the actual object type, so you can 
+      cheat and use something else. The item is not actually read from the Universe 
+      until you use the tostring() or touni() methods, so be sure it remains a 
+      valid object until them (or you will get an error).</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>addpartencuni<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;uniobj&quot;</strong> (REQUIRED): The name of the universe 
+      object to add.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;tenc&quot;</strong> (REQUIRED): Encoding to use for the 
+      content. This may or may not have an effec, based on the object.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;contentid&quot;</strong> (REQUIRED): The contentid for the 
+      part.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;cenc&quot;</strong> (REQUIRED): Encoding to use for the 
+      content id field.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;description&quot;</strong> (REQUIRED): The description for 
+      the part.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;denc&quot;</strong> (REQUIRED): Encoding to use for the 
+      description field.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;type&quot;</strong> (REQUIRED): The content type, as a MIME 
+      type string.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="154"><div align="right">description:</div></td>
+    <td> Add a part to a multipart message. If you call with a start() message, 
+      you will get an error. You can add as many as you want (and memory and MIME 
+      can handle). It will encode the fields as specified in the parameters. It 
+      supports the same encodings as the &quot;setencoding&quot; method. See that 
+      method for<br>
+      more information. 
+      <p>The content will be pulled from a universe item. It can be virtually 
+        any kind of object, even raw binary will be handled properly. The type 
+        will not be verified against the actual object type, so you can cheat 
+        and use something else. The item is not actually read from the Universe 
+        until you use the tostring() or touni() methods, so be sure it remains 
+        a valid object until them (or you will get an error).</p></td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>save<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Validate message and freeze send time. You can call this as often as 
+      you want.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>tostring<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td>String containing the message.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Return the message as a string. It must be a save()'d message.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>touni<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;uniobj&quot;</strong> (REQUIRED): The universe object.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Save the message as a universe object. It will be save in the RFC822 
+      stream format, which is usually 7bit ascii text. It must be a save()'d message.</td>
+  </tr>
+</table>
+<p><font size="-6">AUTOHIT 2003<br>
+  MODULES DOCUMENTATION<br>
+  Copyright Erich P Gatejen (c) 1989,1997,2003,2004<br>
+  See license for details.</font></p>
+</body>
+</html>

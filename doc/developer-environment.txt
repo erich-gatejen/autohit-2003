@@ -1,0 +1,188 @@
+AUTOHIT 2003 
+
+DEVELOPERS ENVIRONMENT DOCUMENTATION
+
+Copyright Erich P Gatejen (c) 1989,1997,2003,2004
+See license for details.
+
+==============================================================================
+!!!!!!!!!!!! BEFORE YOU BUILD!!!!!!!!
+
+Edit set-build-env.bat and change these to whatever is appropriate:
+set ANT_HOME=D:\bin\apache-ant-1.5.3-1
+set JAVA_HOME=D:\j2sdk1.4.2
+
+Edit maketest.bat and change these to whatever is appropriate:
+set THIS_HOME=C:\dev\autohit
+
+!!!!!!!!!!!! TO BUILD !!!!!!!!
+
+Just run build.bat.
+
+Use scrub-environment.bat to scrub the environment.
+
+!!!!!!!!!!!! TO CREATE BINARY DISTRIBUTION PACKAGE!!!!!!!!
+Just run makepackage.bat
+
+!!!!!!!!!!!! TO CREATE TEST AREA !!!!!!!!
+
+It will use content\test\config.prop as the install configuration
+properties.  Edit the file and change necessary paths!
+
+Then just run maketest.bat.
+
+WARNING: If you build in the IDE, but run the test from the command
+line, you need to refresh the jars in the /test area.  You can do
+by running the freshentest script.  This calls the 'freshen' target in the
+ANT make (build.xml).
+
+!!!!!!!!!!!! OTHER INFO !!!!!!!!
+
+The test/ directory is meant for testing IDE builds.
+
+I still haven't figured out how to run an ANT build.xml from Eclipse.  It 
+just can't get the JDK classpath right.  However, it isn't a bit problem, 
+since the incremental builds in the IDE work just fine and are better for
+development and debugging.
+
+==========================================================================
+    NOTES
+==========================================================================
+
+I use Eclipse (www.eclipse.org) for development.  You can build and run
+tests from either the command line or eclipse.  Eventually I'll write some
+documentation on how to set up Eclipse.  You should be able to use any
+IDE.
+
+==========================================================================
+    DEV ENVIRONMENT
+==========================================================================
+
+--- Dev Environment Directories  ---------------------------------
+
+Source			Info			Distribution
+.			Root			NONE
+/bin			Temporary build area	NONE
+/content		Static content area
+/content/3rdparty	Complete 3rdparty packs NONE
+/content/bin		Executables		/bin
+/content/dtd		DTDs			/lib/dtd
+/content/universe	Seed universe		/universe
+/content/etc		Config, install, tools	/etc
+/content/etc/config	Configuration system	/etc/config
+/content/install	Install infrastructure	/
+/content/test		Test dump content	/test/...
+/doc			Documentation		/doc	
+/lib			3rd party libraries	/lib
+/src			Source tree		/src
+/test			Test dump		NONE
+
+/test is created with the maketest script, not the main build.
+
+--- Dev Environment Files  ------------------------------------
+Some may not be there immediately after install.
+
+File			Purpose
+.classpath		Eclipse generated file
+.project		Eclipse generated file
+binary-package.jar	The binary distribution package
+build.bat		Script to run a build.
+build.xml		Main ANT makefile
+freshentest.bat		Script to refresh the test environment in /test
+LICENSE.txt		License information
+makepackage.bat		Script to make the binary distribution package
+maketest.bat		Script to create/rebuild the test environment 
+			in /test
+README.txt		A welcome document
+scrub-environment.bat	Script to clean the environment
+set-build-env.bat	Script used by the other scripts to set the
+			needed environment variables.
+
+--- test environment ------------------------------------------
+
+It is created under /test with the maketest script, using the
+'test' target in the ANT make (build.xml).  It will 
+automatically install and configure it.
+
+It will pull install configuration from /content/test/config.prop
+(In binary distributions, this file is /etc/config.prop.)  You can 
+edit this file at any time; the changes will take effect the next time
+you build and maketest.
+
+==========================================================================
+    DISTRIBUTION ENVIRONMENT
+==========================================================================
+
+=== CONFIGURATION POINTS  =====================================
+
+The base, default install assumes that all install configuration 
+will be in /etc/config.prop.  It is possible to use the configuration
+system to restore and/or reconfigure the system long after an install.
+This will be documented later, though you will see some of the features
+that allow it in this section.
+
+(the test environment install is a special case, as it will use
+/content/test/config.prop).
+
+---------------------------------------------------------------
+1) Files that require install modification.  Each will have names (in 
+braces) that will be replaced by named values in config.prop.
+
+__LIST OF FILES________________________________________
+/bin/default.prop
+/universe/universe.prop
+/bin/setautohitenv.bat
+
+!!! IMPORTANT !!! !!! IMPORTANT !!!! !!! IMPORTANT !!!!
+If you need to add any files that require install modification, they 
+should be added to the /content/etc/config/all.config in the
+following format:
+	y bin/setautohitenv.bat
+y<space>file_path_from_root_after_install
+
+The 'y' character and space are important.  The file all.config already
+has entries.  Use them as an example.
+
+---------------------------------------------------------------
+2) Attributes that need to be changed.  These are read from config.prop
+in a standard install.  The attributes in config.prop are typical
+properties: name=value pairs separated by NewLines.  The value will
+replace the name in any of the modified files if the name is delimited by
+double braces--such as {{ROOT}}.
+
+__LIST OF ATTRIBUTES IN CONFIG.PROP_________________________
+ROOT  = install root
+
+!!! IMPORTANT !!! !!! IMPORTANT !!!!
+If you need to add any new configuration attributes, they 
+should be added to the /content/etc/config.prop
+
+=== LIBRARIES AND BINARIES =====================================
+
+!!!! IMPORTANT !!!! !!!! IMPORTANT !!!! !!!! IMPORTANT !!!!
+IF YOU ADD ANY LIBRARIES:
+	- Put them into /lib
+	- They must be added to /content/build/MANIFEST.MF.  This file 
+          is fairly brittle, so make copies and be careful.  There should
+          be a space at the start and end of every entry.
+!!!! IMPORTANT !!!! !!!! IMPORTANT !!!! !!!! IMPORTANT !!!!
+
+=== CONFIGURATION SYSTEM  ========================================
+You shouldn't mess with this stuff unless you really know what you are
+doing.  At most, you should only edit config.prop and all.config, when
+you add new configuration points to the system.
+
+/etc/config		 Configuration directory
+/etc/config/all.config	 Full configurable and/or checkpointable files.
+/etc/config/kick.config	 Kick start set of configuration files
+/etc/config/kick	 (Static) Kick store set
+/etc/config/factory	 (Generated by build) Factory store set
+
+ANY ADDITIONS OR CHANGES TO THE LIBRARIES REQUIRE A CHANGE
+TO THE FOLLOWING FILES:
+/content/etc/config/kick/0	(zero character)
+
+==========================================================================
+    DISTRIBUTION ENVIRONMENT
+==========================================================================
+

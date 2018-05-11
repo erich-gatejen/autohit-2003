@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Working test script.  However, you must set the props for it to work properly
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/working8">Working 8</name>
+   	<version	num="1"/>
+   	<note>
+   		This script tests reading the system properties and the ASSERT.
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:working8"/></call>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:working8 Target= bootstrap.context.class =autohit.server.SimpleSystemContext"/></call>
+	
+	<!-- ASSERT TRUE CASES -->		
+	<call name="GET_SPROP" result="sprop">
+		<set name="name" value="bootstrap.context.class"/></call>
+	<assert item="sprop">
+		<call name="LOG">
+			<set name="entry" eval="TEST:GOOD:working8:PASS 1 property exists.  value=$sprop$"/></call>
+	</assert>
+	<assert item="sprop" oper="not">
+		<call name="LOG">
+			<set name="entry" value="TEST:GOOD:working8:FAIL 1.  NOT'd an assert that should have passed."/></call>
+	</assert>
+
+	<!-- ASSERT FALSE CASES -->		
+	<call name="GET_SPROP" result="sprop2">
+		<set name="name" value="goat.goat"/></call>
+	<assert item="sprop2">
+		<call name="LOG">
+			<set name="entry" eval="TEST:GOOD:working8:FAIL 2.  Property should no exist.  value=$sprop2$"/></call>
+	</assert>
+	<assert item="sprop2" oper="not">
+		<call name="LOG">
+			<set name="entry" value="TEST:GOOD:working8:PASS 2.  NOT'd an assert that should have failed."/></call>
+	</assert>
+
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:working8 done"/></call>
+
+   </code>
+
+</sim>

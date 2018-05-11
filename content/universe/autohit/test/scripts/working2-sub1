@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Second working test script
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/working2-sub1">Working 2 Subroutine 1</name>
+   	<version	num="1"/>
+   	<note>
+   		This script should actually work.  This is meant to be called by working2
+   	</note>
+   	<io>
+   	   	<input name="Input"/>
+   		<output name="subresult"/>
+   	</io>
+   
+   </info>
+   
+   <code>
+   
+   	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:working2-sub1 start"/></call>
+
+	<!-- MATH -->
+	<set name="Variable" value="1000" new="new"/>
+        <math left="Input" oper="+" eval="$Variable$" output="subresult"/>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working2-sub1:subresult=$subresult$"/></call>
+
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:working2-sub1 done"/></call>
+
+   </code>
+
+</sim>

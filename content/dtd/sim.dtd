@@ -1,0 +1,142 @@
+<?xml encoding="US-ASCII"?>
+
+<!-- Version 1.1 SimLang for autohit  -->
+
+<!-- COMMON elements and entities  ########################## -->
+
+<!ELEMENT note (#PCDATA)>
+<!ATTLIST note xml:space (preserve) #FIXED 'preserve'>
+
+<!ELEMENT input EMPTY>
+<!ATTLIST input
+  name	 CDATA 	 #REQUIRED
+  value	 CDATA 	 #IMPLIED
+  eval	 CDATA 	 #IMPLIED
+  buffer CDATA   #IMPLIED
+  >
+
+<!ELEMENT buffer (#PCDATA)>
+<!ATTLIST buffer
+  clear  (clear) #IMPLIED
+  name	 CDATA 	 #REQUIRED  
+  value	 CDATA 	 #IMPLIED
+  eval	 CDATA 	 #IMPLIED
+  buffer CDATA   #IMPLIED
+  xml:space (default|preserve) 'preserve'
+  >
+
+<!ELEMENT output EMPTY>
+<!ATTLIST output 
+  name CDATA #REQUIRED
+  type CDATA #IMPLIED
+  >
+
+<!-- INFO.  This section describes the SIM ################## -->
+
+<!ELEMENT version (#PCDATA)>
+<!ATTLIST version
+   num CDATA #IMPLIED>
+
+<!ELEMENT name (#PCDATA)>
+<!ATTLIST name
+   uid CDATA #REQUIRED>
+   
+<!ELEMENT io ((input|buffer)*,output?)>
+
+<!ELEMENT info (name, (version|note|io)*)>
+
+<!-- CODE.  This section contains the code for the SIM  #### -->
+
+<!ENTITY % NonScopables "label">
+<!ENTITY % Scopables "exec | call | method | subroutine | set | add | wait | math | buffer | return | goto">
+<!ENTITY % Control "for | block | while | if | assert">  
+<!ENTITY % CodeConstruct "(%Scopables; | %Control;)*">
+<!ENTITY % RootCode "(%CodeConstruct; | %NonScopables;)*">
+
+<!ELEMENT set EMPTY>
+<!ATTLIST set
+  name	 CDATA 	 #REQUIRED  
+  value	 CDATA 	 #IMPLIED
+  eval	 CDATA 	 #IMPLIED
+  buffer CDATA   #IMPLIED
+  ref	 CDATA	 #IMPLIED
+  new    (new)   #IMPLIED
+  >
+  
+<!ELEMENT math EMPTY>
+<!ATTLIST math
+  left	 CDATA #REQUIRED
+  oper   CDATA #REQUIRED
+  value  CDATA #IMPLIED
+  eval   CDATA #IMPLIED
+  output CDATA #IMPLIED
+  >   
+
+<!ELEMENT goto EMPTY>
+<!ATTLIST goto
+  label	 CDATA #REQUIRED
+  >   
+
+<!ELEMENT label EMPTY>
+<!ATTLIST label
+  name	 CDATA #REQUIRED
+  >   
+
+<!ELEMENT exec (input*)>
+<!ATTLIST exec
+  name CDATA #REQUIRED
+  result CDATA #IMPLIED>
+
+<!ELEMENT call (set*)>
+<!ATTLIST call
+  name CDATA #REQUIRED
+  result CDATA #IMPLIED>
+  
+<!ELEMENT method (set*)>
+<!ATTLIST method
+  name CDATA #REQUIRED
+  method CDATA #REQUIRED
+  result CDATA #IMPLIED>  
+  
+<!ELEMENT subroutine (set*)>
+<!ATTLIST subroutine
+  name CDATA #REQUIRED
+  result CDATA #IMPLIED>
+
+<!ELEMENT for (%CodeConstruct;)>
+<!ATTLIST for
+  count     CDATA   #REQUIRED
+  value     CDATA   #IMPLIED
+  eval      CDATA   #IMPLIED
+  >
+
+<!ELEMENT while (%CodeConstruct;)>
+<!ATTLIST while
+  name   CDATA   #REQUIRED
+  value  CDATA   #REQUIRED
+  >
+  
+<!ELEMENT if (%CodeConstruct;)>
+<!ATTLIST if
+  item   CDATA  #REQUIRED
+  value  CDATA	#IMPLIED
+  eval   CDATA  #IMPLIED
+  oper   (gt|lt|eq|not)   #IMPLIED
+  >  
+
+<!ELEMENT assert (%CodeConstruct;)>
+<!ATTLIST assert
+  item   CDATA  #REQUIRED
+  oper   (not)   #IMPLIED
+  >  
+
+<!ELEMENT return EMPTY>
+
+<!ELEMENT block (%CodeConstruct;)>  
+
+<!ELEMENT code ((%RootCode;)*)>
+
+<!-- A Sim.  consists of a Info section and Code section -->
+<!ELEMENT sim (info, code)>
+
+

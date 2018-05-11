@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Module test 2
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/mime1">MimeMessage Test 1</name>
+   	<version	num="1"/>
+   	<note>
+   		Test the TextWriter Module
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:mime1 start"/></call>
+		
+	<set name="Datestamp" value="0" new="new"/>
+	<call name="DATE" result="Datestamp"></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:mime1:The datestamp is set as: $Datestamp$"/></call>
+
+	<set name="tag" value="1" new="new"/>
+	<assert item="id">
+		<set name="tag" ref="id"/>
+	</assert>
+
+	<!-- CREATE AN INSTACE -->
+	<call name="INSTANCE">
+		<set name="type" value="autohit.call.modules.MIMEMessageModule"/>
+		<set name="name" value="mime"/></call>
+
+	<!-- 1 NON-MULTIPART INSTANCE, NO ENCODING -->
+	<method name="mime" method="start"/>
+	<method name="mime" method="from">
+		<set name="address" value="goat@goatly.com"/>
+		<set name="personal" value="Goat Boy"/></method>
+	<method name="mime" method="to">
+		<set name="address" value="togoat2@goatplace.com"/>
+		<set name="personal" value="The Getter Goat"/></method>
+	<method name="mime" method="cc">
+		<set name="address" value="ccgoat2@goatplace.com"/>
+		<set name="personal" value="The Getter Goat CC"/></method>
+	<method name="mime" method="bcc">
+		<set name="address" value="togoat2@goatplace.com"/>
+		<set name="personal" value="The Getter Goat BCC"/></method>
+	<method name="mime" method="subject">
+		<set name="string" value="Get some goat stuff!"/></method>
+	<method name="mime" method="header">
+		<set name="n" value="X-GOAT-HEADER"/>
+		<set name="v" value="secret_goat_code_1218421"/></method>
+	<buffer name="message1-text" clear="clear">This is plain crap to put
+	in the message because this is just text.  blah blah blah.  Buy
+	Goat stuff!  Goat stuff make you happy.
+	</buffer>
+	<method name="mime" method="addcontent">
+		<set name="text" buffer="message1-text"/></method>	
+	<method name="mime" method="save"/>
+	<method name="mime" method="tostring" result="message1"/>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:mime1: Message 1 as a string=$message1$"/></call>
+	<method name="mime" method="touni">
+		<set name="uniobj" eval="autohit/test/dump/message1-$tag$.txt"/></method>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:mime1: Message 1 saved to autohit/test/dump/message1-$tag$.txt"/></call>
+
+	<!-- 2 MULTIPART INSTANCE, NO ENCODING HEADER, 1 ENC PART-->	
+	<method name="mime" method="multipart"/>
+	<method name="mime" method="from">
+		<set name="address" value="goat2@goatly.com"/>
+		<set name="personal" value="Goat Boy 22"/></method>
+	<method name="mime" method="to">
+		<set name="address" value="togoat2@goatplace.com"/>
+		<set name="personal" value="The Getter Goat 2"/></method>
+	<method name="mime" method="subject">
+		<set name="string" value="2222Get some goat stuff!222"/></method>
+	<method name="mime" method="addpart">
+		<set name="text" buffer="message1-text"/>
+		<set name="contentid" value="message2-text22222"/>
+		<set name="description" value="The Getter Goat 2 text attach"/></method>		
+	<method name="mime" method="addpartenc">
+		<set name="text" buffer="message1-text"/>
+		<set name="tenc" value="iso-8859-1"/>		
+		<set name="contentid" value="message2-text33333"/>
+		<set name="cenc" value="iso-8859-1"/>	
+		<set name="description" value="The Getter Goat part two encoded text attach"/>	
+		<set name="denc" value="iso-8859-1"/></method>		
+	<method name="mime" method="save"/>
+	<method name="mime" method="tostring" result="message2"/>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:mime1: Message 2 as a string=$message2$"/></call>
+	<method name="mime" method="touni">
+		<set name="uniobj" eval="autohit/test/dump/message2-$tag$.txt"/></method>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:mime1: Message 2 saved to autohit/test/dump/message2-$tag$.txt"/></call>
+
+	<!-- 3 NON-MULTIPART INSTANCE, ENCODING HEADER -->
+	<method name="mime" method="start"/>
+	<method name="mime" method="from">
+		<set name="address" value="goat@goatly.com"/>
+		<set name="personal" value="Goat Boy"/></method>
+	<method name="mime" method="setencoding">
+		<set name="enc" value="us-ascii"/></method>
+	<method name="mime" method="to">
+		<set name="address" value="togoat2@goatplace.com"/>
+		<set name="personal" value="The Getter Goat"/></method>
+	<method name="mime" method="setencoding">
+		<set name="enc" value="us-ascii"/></method>
+	<method name="mime" method="cc">
+		<set name="address" value="ccgoat2@goatplace.com"/>
+		<set name="personal" value="The Getter Goat CC"/></method>
+	<method name="mime" method="resetencoding"/>		
+	<method name="mime" method="bcc">
+		<set name="address" value="togoat2@goatplace.com"/>
+		<set name="personal" value="The Getter Goat BCC"/></method>
+	<method name="mime" method="subject">
+		<set name="string" value="Get some goat stuff!"/></method>
+	<method name="mime" method="setencoding">
+		<set name="enc" value="us-ascii"/></method>
+	<method name="mime" method="header">
+		<set name="n" value="X-GOAT-HEADER"/>
+		<set name="v" value="secret_goat_code_33333333"/></method>
+	<method name="mime" method="addcontent">
+		<set name="text" buffer="message1-text"/></method>	
+	<method name="mime" method="save"/>
+	<method name="mime" method="tostring" result="message3"/>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:mime1: Message 3 as a string=$message3$"/></call>
+	<method name="mime" method="touni">
+		<set name="uniobj" eval="autohit/test/dump/message3-$tag$.txt"/></method>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:mime1: Message 3 saved to autohit/test/dump/message3-$tag$.txt"/></call>
+
+	<!-- 4 MULTIPART INSTANCE, NO ENCODING HEADER, FROM UNI 1 ENC PART-->	
+	<method name="mime" method="multipart"/>
+	<method name="mime" method="from">
+		<set name="address" value="goat2@goatly.com"/>
+		<set name="personal" value="Goat Boy 4"/></method>
+	<method name="mime" method="to">
+		<set name="address" value="togoat4@goatplace.com"/>
+		<set name="personal" value="The Getter Goat 4"/></method>
+	<method name="mime" method="subject">
+		<set name="string" value="4444Get some goat stuff!44444"/></method>
+	<method name="mime" method="addpart">
+		<set name="text" value="stuff stuff stuff  Message 4"/>
+		<set name="contentid" value="message4-text4"/>
+		<set name="description" value="The Getter Goat 4 text attach"/></method>		
+	<method name="mime" method="addpartuni">
+		<set name="uniobj" value="autohit/test/objects/goat.doc"/>
+		<set name="contentid" value="message4-item1"/>
+		<set name="description" value="File attach 1"/>
+		<set name="type" value="application/msword"/></method>	
+	<method name="mime" method="addpartunienc">
+		<set name="uniobj" value="autohit/test/objects/page.html"/>
+		<set name="tenc" value="us-ascii"/>		
+		<set name="contentid" value="message4-item1"/>
+		<set name="cenc" value="us-ascii"/>	
+		<set name="description" value="File attach 2"/>	
+		<set name="denc" value="us-ascii"/>
+		<set name="type" value="text/html"/></method>
+	<method name="mime" method="addpartuni">
+		<set name="uniobj" value="autohit/test/objects/objects.zip"/>
+		<set name="contentid" value="message4-item3"/>
+		<set name="description" value="File attach 3"/>
+		<set name="type" value="application/x-compress"/></method>			
+	<method name="mime" method="save"/>
+	<method name="mime" method="tostring" result="message4"/>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:mime1: Message 4 as a string=$message2$"/></call>
+	<method name="mime" method="touni">
+		<set name="uniobj" eval="autohit/test/dump/message4-$tag$.txt"/></method>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:mime1: Message 4 saved to autohit/test/dump/message4-$tag$.txt"/></call>
+		
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:mime1 done"/></call>		
+	
+   </code>
+
+</sim>

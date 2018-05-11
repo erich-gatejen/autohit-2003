@@ -1,0 +1,401 @@
+AUTOHIT 2003 
+
+!!!!!!!!!!!!!!!  DESIGN DOCUMENTATION  !!!!!!!!!!!!!!!!!!!!!!!
+SIMLANGUAGE DESIGN
+!!!!!!!!!!!!!!!  DESIGN DOCUMENTATION  !!!!!!!!!!!!!!!!!!!!!!!
+
+Copyright Erich P Gatejen (c) 1989,1997,2003
+ALL RIGHTS RESERVED. See license for details.
+==============================================================================
+
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "file:sim.dtd">
+<!--
+
+--- LIST OF TOKENS -----------------------------------------------
+
+<sim>
+	<info>
+		<name>
+		<note>
+		<version>
+		<io>
+			<input>
+			<buffer>
+			<output>	// defines the output var
+	<code>
+		<block>
+		<buffer>
+		<call>
+		<method>
+		<exec>
+		<for>
+		<input>			// always create new
+		<if>
+		<math>
+		<set>			// create new only if tagged
+		<subroutine>
+		<while>
+		<return>		// force an exit from the script
+		<goto>
+		<label>
+		<assert>
+
+--- EVALUATION SYNTAX -------------------------------------------
+
+EVAL implmented by the StringProcessors
+
+	$variable$ is a variable
+	^com.berzerq.uni.test2.test7^ is a universe object (NOT IMPLEMENTED)
+	%goats% is a buffer
+	
+	THEY ARE NOT ESCAPABLE AT THIS TIME!		
+
+	If a variable is not found, it is replaced with an empty string.
+	
+--- INSTRUCTIONS ------------------------------------------------
+i.eval(literal)	  : evaluate and store in LEFT(literal)
+i.store(variable) : update in scope variable.  if does not exist, do a i.new
+i.new(variable)   : push LEFT(literal) on stack and mirror to storage
+i.scope  	  : push to stack as a marker
+i.rscope 	  : pop the stack to the next i.scope.  remove all encountered vars
+i.reduce(buffer)  : reduce a buffer and put in LEFT(literal)
+i.merge(buffer)   : merge LEFT(literal) with named buffer
+i.right	  	  : move LEFT(literal) to RIGHT(literal)
+i.math(oper)  	  : execute operation from RIGHT(literal) to LEFT(literal)
+i.load(literal)   : load literal into LEFT
+i.clear(bufffer)  : clear a buffer
+i.fault  	  : fault out of the routine
+i.fetch(variable) : load LEFT from storage specified
+i.if(literal,oper): Evaluate LEFT(literal).  0 means the evaluation was a match.  
+                    You can modify with an operation, oper = (gt|lt|eq|not):
+			eq  : default.   if LEFT(literal) is not 0, jump to literal
+			gt  : if LEFT(literal) is =< 0, jump to literal
+			lt  : if LEFT(literal) is >= 0, jump to literal
+			not : if LEFT(literal) is 0, jump to literal
+i.call(target)	  : call TARGET, target put result in LEFT, store LEFT in result.
+i.method(meth)    : call method for named module.  the module name should be loaded into
+                    LEFT.  put result in LEFT, store LEFT in result.
+i.exec(class)	  : exec TARGET, target put result in LEFT, store LEFT in result.
+i.subr(target)	  : call a subroutine.  act as a scope.
+i.jump(target)	  : unconditional jump.  this will break any scope (within a subr) that it crosses!
+i.goto(target)	  : scope sensitive jump.  includes a nasty ass hack to bust any scope frame.
+i.assert(lit,oper): Evaluate LEFT(literal) to see if it is null, empty, or otherwise void.  You can NOT this operation.
+
+--- STACK ------------------------------------------------------------
+
+n
+.   [CALLS/EXEC DO NOT ADD TO STACK]
+.   <i.call(name)>		 ----> loader(name)
+.   String<local var2>           ----> core new(local var2/1) 
+.   String<local var>            ----> core new(local var/2)
+.   VMExecutable<caller>	 ----> <i.subr(called)> >> loader(called)
+.   Integer<ip>			 ----> Instruction pointer
+9   <i.subr>		 	 ----> core new(i.subr.return) // create return reference
+8   String<varZ>           	 ----> core new(varZ/2)        // Parameters
+7   String<param>            	 ----> core new(param/1)
+6   <i.scope>
+5   String<local varZ>           ----> core new(local varZ/1)
+4   String<local var>            ----> core new(local var/1)
+3   <i.scope>
+2   String<system global var'>   ----> core new(system global var')
+1   String<system global var >   ----> core new(system global var)
+0   <i.nop>
+
+--- SUBR CALL FRAME --------------------------------------------------
+
+ENTRY
+1- Hit i.scope (emitted)
+2- Instantiate parameters (emitted)
+3- Instantiate return variable as defined in i.subr instruction
+4- Toss i.subr instruction on the stack
+5- Toss reference to currently running executable (VMExec.) on stack
+6- Load new SUBR and let run
+
+1, 2 are emitted instructions, as such:
+<subroutine>	i.scope				// do 1
+		(SET)*				// do 2
+		i.subr(name)			// do 3 through 13
+		i.rscope				// do 14
+		if (result exist) i.store(result)       // do 15
+
+EXIT
+8- Hit instruction out of bounds
+9- Pop stack, for each
+	a) VMExecutable - hit end of call, go to step 3-
+	b) <i.nop> - end of execution.  Die.
+	c) String - remove from core, continue 2-
+10- Make popped VMExecutable the running executable
+11- Pop the IP (in the Integer)
+12- Pop the i.subr.  Read the i.subr.return, put in left, remove from core.
+13- Continue execution...
+14- Hit i.rscope (emitted) and unravel the parameter variables.
+15- Hit i.store (optional/emitted)
+
+
+--- MICROCODE --------------------------------------------------------
+	
+<name>		no instructions
+
+<note>		no instructions
+
+<version>	no instructions	
+
+<set>		if (eval exists)	i.eval(eval)
+		 else if (ref exists)	i.fetch(ref)
+		 else if (value exists) i.load(value)
+		 else (buffer exists)	i.reduce(buffer)
+		 else 			!!ERROR	
+		if (new exists)		i.new(name)
+		 else			i.store(name)
+
+<input>		if (eval exists)	i.eval(eval)
+		 else if (value exists) i.load(value)
+		 else if (buffer exists)i.reduce(buffer)
+		 else 			!!ERROR	
+		i.new(name)			
+		
+<buffer>	if (clear exists)	i.clear(name), ALREADY = true
+		if (eval exists)	i.eval(eval), i.merge(name)
+		 else if (value exists) i.load(value), i.merge(name)
+		 else if (buffer exists)i.reduce(buffer), i.merge(name)
+		 else 			CLEAR = true
+		if (cdata exists)	i.load(cdata), i.merge(name)
+		 else if (CLEAR true, ALREADY false)   i.clear(name)
+		
+<math>		if (eval exists)	i.eval(eval)
+		 else if (value exists) i.load(value)
+		 else 			i!!ERROR	
+		i.right()
+		i.fetch(left)
+		i.math(oper)
+		if (output exists)	i.store(output)
+		else 			i.store(left)
+		
+<if>		if (oper exists)	OP = oper
+		 else			OP = '=' (default)
+		if (eval exists)	i.eval(eval)
+		 else if (value exists) i.load(value)
+		 else 			!!ERROR	
+		i.right
+		i.fetch(item)
+		i.math(operation)
+		i.if(OUTER,OP)
+	INNER:  i.scope
+		ANY
+		i.rscope
+	OUTER:	continue	
+
+<assert>	if (oper NOT exists)	OP = NOT
+		 else			OP = EQ
+		i.fetch(item)
+		i.assert(OUTER,OP)
+	INNER:  i.scope
+		ANY
+		i.rscope
+	OUTER:	continue
+
+<for>	TOP:	i.scope
+		if (eval exists)	i.eval(eval)
+		 else if (value exists) i.load(value)
+		 else 			!!ERROR	
+		i.new(item)
+	LOOP:	i.if(DONE)
+	DO:	ANY
+		i.load("1")
+		i.right	
+		i.fetch(item)
+		i.math("-")		// LEFT RESULT will stay in LEFT
+		i.store(item)		
+		i.jump(LOOP)		
+	DONE:	i.rscope
+
+<while>		i.scope
+	DO:	i.load(value)
+		i.right
+		i.fetch(name)
+		i.math("=")
+		i.if(DONE)
+		(ANY)*
+		i.jump(DO)
+	DONE:	i.rscope
+	
+<block>		i.scope
+		ANY
+		i.rscope
+		
+<call>		i.scope
+		(SET)*
+		i.call(name)
+		i.rscope
+		if (result exist)	i.store(result)
+
+<method>	i.scope
+		(SET)*
+		i.eval(name)
+		i.method(method)
+		i.rscope
+		if (result exist)	i.store(result)
+
+<exec>		i.scope
+		(INPUT)*
+		i.exec(name)
+		i.rscope
+		if (result exist)	i.store(result)
+
+<subroutine>	i.scope
+		(SET)*
+		i.subr(name)
+		i.rscope
+		if (result exist)	i.store(result)
+
+<return>	i.fault
+
+<label>		{mark label}
+
+<goto>		i.goto(label)
+
+--- FLOW -------------------------------------------------------
+ * WHILE
+ * ip (Instruction Pointer) Flow
+ *
+ *     [SCOPE][WHILE]..code block.. [RSCOPE]
+ *               |                      ^ 
+ *               |----------------------|
+ *                            expression != value
+ 
+ * IF
+ * ip (Instruction Pointer) Flow
+ *
+ *                      e != value
+ *       -------------------------------------------
+ *       |                                         |
+ *       |                                         V
+ *     [IF] [SCOPE]..code block.. [RSCOPE] ... more code..
+ *         
+ 
+ * FOR          	
+ * ip (Instruction Pointer) Flow
+ *
+ *                         count == 0
+ *                   -----------------------------
+ *                   |                           |
+ *                   |                           V
+ *     [SCOPE][FOR] ..code block.. [JUMP][RSCOPE]
+ *                   ^                    |
+ *                   |---------------------
+ *                        always
+ *
+		
+-->
+
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	First test script
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit:test:scripts:compile-test1">Compiler test 3</name>
+   	<version	num="1"/>
+   	<note>
+   		This is a compiler test.  There should be NO errors			
+   	</note>
+   	<io>
+   		<input name="goatvar"/>
+   		<buffer name="goatbuffer">aaa</buffer>
+   		<input name="otherVar"/>
+   		<output name="returnInfo"/>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<set name="Variable" value="10" new="new"/>
+        <set name="Variable2" eval="$goatvar$"/>
+        <set name="Variable-reference" ref="Variable"/>
+        <math left="Variable" oper="+" value="2" output="destinationVar"/>
+        <math left="Variable" oper="*" eval="$goatvar$" output="destinationVar"/>
+        
+        <goto label="place"/>
+        
+	<buffer name="bobsbuffer" clear="clear"></buffer>
+	<buffer name="bobsbuffer" value="goat"></buffer>
+	<buffer name="bobsbuffer" eval="$Variable$"/>
+	<buffer name="bobsbuffer" buffer="otherBuffer"/>     
+        <buffer name="bobsbuffer">
+        	Lots of goatly information.
+        	To be had here.
+        </buffer>
+        <buffer name="goatbuffer2"></buffer>
+   
+        <for count="countVar" value="10">
+            <!-- do this -->
+            <buffer name="bobsbuffer" value="more goat"></buffer>
+        </for>
+        
+        <for count="countVar" value="$Variable$">
+            <!-- do this -->
+        </for>
+	
+        <if item="Variable" value="-1">
+        	<!-- do this -->
+        </if>	
+
+        <if item="Variable" eval="$Variable2$">
+        	<!-- do this -->
+        </if>	  
+
+        <if item="Variable" eval="$Variable2$" oper="not">
+        	<!-- do this if the eval fails -->
+        </if>	  	
+  
+        <assert item="Variable">
+        	<!-- Do this is Variable has something in it -->
+        </assert>	  
+
+        <assert item="Variable" oper="not">
+        	<!-- Do this is Variable DOES NOT have something in it -->
+        </assert>
+
+    	<label name="zoink"/>  
+   
+   	<block>
+   		<set name="Wibble" value="This var will only be around within this block"/> 
+		<call name="HTTP" result="result">
+			<set name="info" value="goat"/>
+			<set name="header" eval="$Variable2$"/>
+			<set name="goods" ref="Variable2"/>
+			<set name="jack" buffer="bobsbuffer"/>
+   		</call> 	
+   		<set name="Wobble" value="Wobble"/> 
+   	</block>
+   
+   	<exec name="autohit.goats.DoGoat" result="result2">
+		<input name="a" value="Goat string"/>
+		<input name="b" eval="$Variable2"/>
+		<input name="c" eval="$Variable2"/>
+		<input name="d" buffer="bobsbuffer"/>
+   	</exec>
+   	
+   	<label name="place"/>
+   
+	<subroutine name="com:borkitybork:universe:Tester1:TestOb2" result="result">
+   		<set name="Wibble" value="This var will only be around within this block"/> 
+		<set name="info" value="goat"/>
+		<set name="header" eval="$Variable2"/>
+		<set name="goods" eval="$Variable2"/>
+		<set name="jack" buffer="bobsbuffer"/>
+	</subroutine> 
+	
+	<goto label="zoink"/>
+   
+        <while name="Variable" value="1">
+        	<math left="Variable" oper="+" value="1" output="destinationVar"/>
+        </while>
+   
+   </code>
+
+</sim>

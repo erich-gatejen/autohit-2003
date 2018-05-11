@@ -1,0 +1,37 @@
+# AUTOHIT
+# base properties for this universe
+
+# NAME of this universe
+# (required) any string
+name = local
+
+# TYPE of universe
+#   
+# Only 'local' is supported right now.
+#
+# types:
+#    local    = Local only
+#    master   = Local and a master to others
+#    mirror   = mirrored to a master.  read locally, mirror from master
+#    remote   = remote only.  pull live from a master
+#    extended = extention class.  classname put in property "class"
+# 
+type =local
+
+# ROOT of this universe
+# Descriptor to the root of the universe. This will depend upon the type.
+# 
+# by type: 
+#    local   = it will be a file system path
+#
+root ={{ROOT}}/universe
+
+
+# CLASS name of the universe service implimentation
+# Only needed if type is extended
+# 
+# by type: 
+#    local   = it will be a file system path
+#
+class =autohit.universe.service.UniverseLocal
+ 

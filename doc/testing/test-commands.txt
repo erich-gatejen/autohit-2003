@@ -1,0 +1,5 @@
+compile com/misterboogers/scripts/pingboogers
+dump com/misterboogers/scripts/pingboogers
+run com/misterboogers/scripts/pingboogers
+
+SEE autohit-dev-tests.txt for tests used when working on the autohit system.

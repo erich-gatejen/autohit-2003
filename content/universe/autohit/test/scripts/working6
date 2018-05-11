@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Sixth test script
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/working6">Working 6</name>
+   	<version	num="1"/>
+   	<note>
+   		Test CALL_WAIT in a couple WHILES
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:working3 start"/></call>
+		
+	<set name="Datestamp" value="0" new="new"/>
+	<call name="DATE" result="Datestamp"></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working6:The datestamp is set as: $Datestamp$"/></call>
+
+	<!-- WHILE and IF test -->
+	<set name="rover" value="0" new="new"/>
+	<set name="whileflag" value="1" new="new"/>
+	<while name="whileflag" value="1">
+       		<math left="rover" oper="+" value="1" output="rover"/>		
+	        <if item="rover" value="10">
+        		<set name="whileflag" value="0"/>
+      			<call name="LOG">
+				<set name="entry" eval="TEST:GOOD:working6:ROVER FLAGS end of while rover=$rover$"/></call>   		
+       		</if>
+		
+	      	<call name="LOG">
+			<set name="entry" value="TEST:GOOD:working6:Going to wait for 5 seconds now."/></call>
+
+	      	<call name="WAIT">
+			<set name="millis" value="5000"/></call>
+
+	      	<call name="LOG">
+			<set name="entry" value="TEST:GOOD:working6:Done waiting."/></call>
+
+						
+        </while>
+		
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:working6 done"/></call>		
+	
+   </code>
+
+</sim>

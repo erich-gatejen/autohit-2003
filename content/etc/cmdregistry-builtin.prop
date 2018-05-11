@@ -1,0 +1,56 @@
+# COMMAND REGISTRY OF BUILT IN COMMANDS
+# Numerics under 1000 are reserved for AUTOHIT
+#
+# #1 compile <target>
+# #2 dump <target>
+# #3 run <target>
+
+# NUMERIC LISTING
+command.1=compile
+command.2=dump
+command.3=run
+command.4=ps
+command.5=kill
+command.6=props
+command.7=set
+command.8=loadprops
+command.9=saveprops
+
+# COMMANDS
+
+# Compile
+compile.class=autohit.server.command.CommandCompile
+compile.help=This will compile a script found at the target.
+
+# Dump
+dump.class=autohit.server.command.CommandDump
+dump.help=This will dump a compiled script found at the target.
+
+# Run
+run.class=autohit.server.command.CommandRun
+run.help=This will run a compiled script in a seperate VMProcess.
+
+# PS
+ps.class=autohit.server.command.CommandPS
+ps.help=Dumps the process list.
+
+# KILL
+kill.class=autohit.server.command.CommandKill
+kill.help=Kill the process associated with the PID.
+
+# PROPS
+props.class=autohit.server.command.CommandProps
+props.help=List the invoker properties.
+
+# SET
+set.class=autohit.server.command.CommandSet
+set.help=Set an invoker property.
+
+# LOAD PROPS
+loadprops.class=autohit.server.command.CommandLoadProps
+loadprops.help=Load an invoker property set from a universe object.
+
+# SAVE PROPS
+saveprops.class=autohit.server.command.CommandSaveProps
+saveprops.help=Save invoker properties to a universe object.
+

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Fourth test script
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/working4">Working 4</name>
+   	<version	num="1"/>
+   	<note>
+   		This script should actually work.
+   		Test Labels, GOTO, and pass by reference.
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:working4 start"/></call>
+		
+	<set name="Datestamp" value="0" new="new"/>
+	<call name="DATE" result="Datestamp"></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working4:The datestamp is set as: $Datestamp$"/></call>
+
+	<set name="jumpup" value="true" new="new"/>
+
+	<!-- TOP -->
+	<label name="top"/>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working4:Just past top label.  You should see this message TWICE.  jumpup=$jumpup$"/></call>
+
+	<!-- JUMP FORWARD -->
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working4:Jump over  jumpup=$jumpup$"/></call>
+	<goto label="bottom"/>
+	
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working4:TEST FAILED!  TEST FAILED!  TEST FAILED!  TEST FAILED!  Script should have jumped over this with a GOTO.  jumpup=$jumpup$"/></call>
+	
+	<!-- BOTTOM.  jump up only once-->
+	<label name="bottom"/>
+	<if item="jumpup" value="true">
+		<set name="jumpup" value="false"/>
+		<call name="LOG">
+			<set name="entry" eval="TEST:GOOD:working4:Im going to jump up, but only once.  You should see this mesage only ONCE.  The jumpup var should now be false.  jumpup=$jumpup$"/></call>
+		<goto label="top"/>
+	</if>
+		
+	<!-- PASS BY REFERENCE -->
+	<set name="refjumpup" ref="jumpup" new="new"/>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working4 Test pass by reference.  The word after the colon should be 'false' : $refjumpup$"/></call>			
+		
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:working4 done"/></call>		
+	
+   </code>
+
+</sim>

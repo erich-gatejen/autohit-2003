@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	First working test script
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/working9">Working 9</name>
+   	<version	num="1"/>
+   	<note>
+   		TEST NESTED variable setting
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:working9"/></call>
+
+	<set name="failures" value="0" new="new"/>
+	<set name="rover" value="0" new="new"/>
+	<set name="whileflag" value="true" new="new"/>
+	<set name="dothang" value="true" new="new"/>
+       
+	<while name="whileflag" value="true">
+		
+		<math left="rover" oper="+" value="1" output="rover"/>		
+	        <if item="rover" value="10">
+        		<set name="whileflag" value="false"/>
+      			<call name="LOG">
+				<set name="entry" eval="TEST:GOOD:working9:ROVER FLAGS end of while rover=$rover$"/></call>   		
+       		</if>		
+       		
+		<!-- make sure the token is in the message -->
+		<if item="dothang" value="true">
+			<math left="failures" oper="+" value="1" output="failures"/>
+		</if>
+		
+		<call name="LOG">
+			<set name="entry" eval="TEST DEBUG failures=$failures$"/></call>		
+				
+        </while>   	
+
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:working9 done"/></call>		
+	
+   </code>
+
+</sim>

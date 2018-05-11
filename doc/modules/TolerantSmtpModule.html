@@ -1,0 +1,393 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#F0E6E1">
+<p>name: <strong><font size="+1">TolerantSmtpModule</font></strong><br>
+  class: <strong>autohit.call.modules.TolerantSmptModule</strong></p>
+<p>A tolerant smtp module.  It will be somewhat forgiving of connection problems.</p>
+<p>You must start() a session before you can send() anything. It assumes that 
+  anything you send is well-formed RFC822 in stream format (the MIMEMessageModule 
+  can do this for you).</p>
+<p>Where start() begins a session, done() closes it. A complete transaction includes 
+  calls to start(), login(), sender() or senderrelay(), recipient() or recipientrelay(), 
+  send() or senduni(), and done(). It is possible to reuse, reset, or otherwise 
+  manipulate sessions, as long as SMTP rules are not broken. There are two convienence 
+  methods that will do the whole transaction string in one, easy call--mailit() 
+  and mailituni(). However, niether allow complex sender or recipient information.</p>
+<p>It is safe to call done() at any time! Of course, it will invalidate any session.</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>start<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;address&quot;</strong> (): Host address for SMTP server 
+      or relay.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right"></div></td>
+    <td><strong>&quot;port&quot;</strong> (OPTIONAL): Port number for server or 
+      relay. It will use the default if not given.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td>Start an SMTP session by connecting to an SMTP server or relay.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>login<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;hostname&quot;</strong> (OPTIONAL): Hostname to use instead 
+      of the default, which is the FQDN for the local host.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td>Login to the SMTP server or relay.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>sender<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;address&quot;</strong> (REQUIRED): Address of the the sender.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="37"><div align="right">description:</div></td>
+    <td>Set the sender address. Subsequent calls will overwrite the value. The 
+      address should be a valid email address. It will fault if a session has 
+      not been started or has expired.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>addsenderrelay<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;address&quot;</strong> (REQUIRED): Address of a leg in the 
+      relay.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="76"><div align="right">description:</div></td>
+    <td>Add sender relay leg method. It will start accumulating a sender relay 
+      path. You must call this at least once, if you are going to use senderrelay(). 
+      The first call should contain a complete email address at the root of the 
+      relay chain. The accumulation will be reset after done() or other connection 
+      ending event. It will fault if a session has not been started or has expired.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>senderrelay<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="44"><div align="right">description:</div></td>
+    <td> It will set the sender as the accumulated relay. You must have called 
+      addsenderrelay() at least once or you will get an error. It will fault if 
+      a session has not been started or has expired.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>recipient<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;address&quot;</strong> (REQUIRED): Address of the the recipient.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="44"><div align="right">description:</div></td>
+    <td>Add a recipient address. Subsequent calls will overwrite the value. The 
+      address should be a valid email address. It will fault if a session has 
+      notb een started or has expired.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>addrecipientrelay<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;address&quot;</strong> (REQUIRED): Address of a leg in the 
+      relay.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="82"><div align="right">description:</div></td>
+    <td>Add recipient relay leg method. It will start accumulating a recipeint 
+      relay path. You must call this at least once, if you are going to use recipientrelay(). 
+      The first call should contain a complete email address at the root of the 
+      relay chain. The accumulation will be reset after done() or other connection 
+      ending event. It will fault if a session has not been started or has expired.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>recipientrelay<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="44"><div align="right">description:</div></td>
+    <td> It will set the recipients to the accumulated relay. You must have called 
+      addrecipientrelay() at least once or you will get an error. It will fault 
+      if a session has not been started or has expired.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>send<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;text&quot;</strong> (REQUIRED): Text to send as a message.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td>SMTP response code (numeric) as a string.</td>
+  </tr>
+  <tr valign="top"> 
+    <td height="44"><div align="right">description:</div></td>
+    <td>Send the message in the text. Returns the SMTP reply code. Remember, this 
+      text should be a well-formed RFC822 message. It will fault if a session 
+      has not been started or has expired.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>senduni<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;uniobj&quot;</strong> (REQUIRED): Universe object to send 
+      as a message.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td>SMTP response code (numeric) as a string.</td>
+  </tr>
+  <tr valign="top"> 
+    <td height="44"><div align="right">description:</div></td>
+    <td> Send the message in the Universe object. Returns the SMTP reply code. 
+      Remember, this object should contain a well-formed RFC822 message. It will 
+      fault if a session has not been started or has expired.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>senduniscrub<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;uniobj&quot;</strong> (REQUIRED): Universe object to send 
+      as a message.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td>SMTP response code (numeric) as a string.</td>
+  </tr>
+  <tr valign="top"> 
+    <td height="44"><div align="right">description:</div></td>
+    <td> Send the message in the Universe object. It will run it through a variable 
+      replacement before sending. It'll replace all variables in scope. Returns 
+      the SMTP reply code. Remember, this object should contain a well-formed 
+      RFC822 message. It will fault if a session has not been started or has expired.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>reset<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="44"><div align="right">description:</div></td>
+    <td> This will reset the session. The module will stay connected to the server, 
+      but all data is reset, all headers are dumped, and all states are forgotten. 
+      It is safe to call this as any time.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>mailit<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;to&quot;</strong> (REQUIRED): To address (rcpt).</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;from&quot;</strong> (REQUIRED): From address (mail).</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;text&quot;</strong> (REQUIRED): Text to send as the message.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;host&quot;</strong> (REQUIRED): Host address for SMTP server 
+      or relay.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right"></div></td>
+    <td><strong>&quot;port&quot;</strong> (REQUIRED): Port number for server or 
+      relay. It will use the default if not given.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td>SMTP response ode (numeric) as a string.</td>
+  </tr>
+  <tr valign="top"> 
+    <td height="60"><div align="right">description:</div></td>
+    <td> A complete transaction wrapped into a convenient method. If a session 
+      is not started, it will create one using the host and port parameters. If 
+      a session is already started, it will ignore the host and port parameters. 
+      It returns the SMTP reply code. Remember, this text should be a well-formed 
+      RFC822 message.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>mailituni<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;to&quot;</strong> (REQUIRED): To address (rcpt).</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;from&quot;</strong> (REQUIRED): From address (mail).</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;uniobj&quot;</strong> (REQUIRED): Universe object to send.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;host&quot;</strong> (REQUIRED): Host address for SMTP server 
+      or relay.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right"></div></td>
+    <td><strong>&quot;port&quot;</strong> (REQUIRED): Port number for server or 
+      relay. It will use the default if not given.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td>SMTP response code (numeric) as a string.</td>
+  </tr>
+  <tr valign="top"> 
+    <td height="63"><div align="right">description:</div></td>
+    <td> A complete transaction wrapped into a convenient method. If a session 
+      is not started, it will create one using the host and port parameters. If 
+      a session is already started, it will ignore the host and port parameters. 
+      It returns the SMTP reply code. Remember, the universe object should contain 
+      a well-formed RFC822 message.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>done<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> <p>This will end a session. It is safe to call done() at any time! Of 
+        course, it will invalidate any session.</p>
+      </td>
+  </tr>
+</table>
+<p><font size="-6">AUTOHIT 2003<br>
+  MODULES DOCUMENTATION<br>
+  Copyright Erich P Gatejen (c) 1989,1997,2003,2004<br>
+  See license for details.</font></p>
+</body>
+</html>

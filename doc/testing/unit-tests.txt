@@ -1,0 +1,9 @@
+# UNIT tests  - FIX PATHS BEFORE USING!
+
+# Log tests
+\dev\autohit\test\bin\run autohit.common.test.TestLogFormatting t \dev\autohit\test\doc\testing\data\log-test.txt
+\dev\autohit\test\bin\run autohit.common.test.TestLogFormatting n \dev\autohit\test\doc\testing\data\log-test.txt
+
+# HTTP Sink
+\dev\autohit\test\bin\run autohit.common.test.HttpSink \dev\autohit\test\log\http-sink.txt
+

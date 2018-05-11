@@ -1,0 +1,200 @@
+<project name="autohit" default="dist" basedir=".">
+    <description>
+        Autohit
+    </description>
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="bin" location="bin"/>
+  <property name="dist"  location="dist"/>
+  <property name="doc" location="doc"/>
+  <property name="content" location="content"/>
+  <property name="test" location="test"/>
+  <property name="javac.debug" value="true"/>
+  
+  <path id="project.class.path">
+      <pathelement path="${classpath}"/>
+      <fileset dir="lib">
+        <include name="**/*.jar"/>
+      </fileset>
+      <pathelement location="bin"/>
+  </path>
+  
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${dist}"/>
+  </target>
+
+  <target name="compile" depends="init,cleanit"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <mkdir dir="${bin}"/>
+    <javac srcdir="${src}" destdir="${bin}" debug="${javac.debug}">
+       <classpath refid="project.class.path"/>
+    </javac>
+  </target>
+
+  <target name="docs" depends="init" 
+        description="generate the documentation" >
+  	<delete dir="${dist}/doc"/>
+  	<delete dir="${doc}/api"/>
+   	<mkdir dir="${dist}/doc"/>
+
+	<javadoc packagenames="autohit.*"
+	   sourcepath="src"
+	   defaultexcludes="yes"
+	   destdir="${doc}/api"
+	   author="true"
+	   version="true"
+	   use="true"
+	   windowtitle="Autohit">
+	   <classpath refid="project.class.path"/>
+<!--	   <docTitle><![CDATA[<h1>Autohit</h1>]]></doctitle> -->
+	   <bottom><![CDATA[<i>Test.</i>]]></bottom>
+<!--	   <tag name="todo" scope="all" description="To do:" />
+	   <group title="Group 1 Packages" packages="com.dummy.test.a*"/>
+	   <group title="Group 2 Packages" packages="com.dummy.test.b*:com.dummy.test.c*"/>-->
+	   <link offline="true" href="http://java.sun.com/products/jdk/1.4.1/docs/api/" packagelistLoc="C:\tmp"/>
+	</javadoc>
+	
+	<copy todir="${dist}/doc" overwrite="true">
+    	<fileset dir="${doc}/"/>
+    	</copy>
+  </target>
+
+  <target name="dist" depends="compile,docs"
+        description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- JAR it -->
+    <jar jarfile="${dist}/lib/autohitsystem.jar" basedir="${bin}"/>
+    
+    <!-- JAR MANIFEST -->   
+    <jar jarfile="${dist}/lib/autohit.jar" manifest="${content}/build/MANIFEST.MF"/>
+      
+    <!-- drag the rest of the content -->
+    <copy todir="${dist}/lib" overwrite="true">
+    	<fileset dir="lib"/>
+    </copy>
+    
+    <copy todir="${dist}/universe">
+       <fileset dir="${content}/universe"/>
+    </copy>
+ 
+     <copy todir="${dist}/etc">
+       <fileset dir="${content}/etc"/>
+    </copy>
+ 
+    <copy todir="${dist}/lib/dtd">
+       <fileset dir="${content}/dtd"/>
+    </copy>
+
+    <copy todir="${dist}/bin">
+       <fileset dir="${content}/bin"/>
+    </copy>
+    
+    <copy todir="${dist}">
+       <fileset file="${content}/README.TXT"/>
+    </copy>
+    
+    <copy todir="${dist}">
+       <fileset file="${content}/LICENSE.TXT"/>
+    </copy>
+    
+    <!-- Create log directory -->
+    <mkdir dir="${dist}/log"/>
+    
+    <!-- build factory defaults -->
+    <java classname="autohit.common.deployment.DeploymentConfigure">
+    	<classpath>
+    	           <pathelement path="${java.class.path}"/>
+    	           <pathelement path="${dist}/lib/autohitsystem.jar"/>
+    	           <pathelement path="${dist}/lib/commons-collections.jar"/>
+         </classpath>
+    	<arg value="factory"/> 
+    	<arg value="PLEASE"/> 
+    	<arg value="${dist}"/> 
+    </java>
+  
+  </target>
+
+  <target name="cleanit"
+        description="clean before" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <!-- <delete dir="${bin}"/>
+    <delete dir="${dist}"/>  -->
+    <delete includeEmptyDirs="true" failonerror="false">
+	<fileset dir="${bin}"/>
+	<fileset dir="${dist}"/>
+    </delete>
+    
+  </target>
+  
+    <target name="clean"
+        description="clean after" >
+
+    </target>
+  
+    <target name="package" description="create the binary package" >
+    	<delete includeEmptyDirs="true" failonerror="false">
+		<fileset file="package.jar"/>
+    	</delete>
+    	<!-- JAR it -->
+    	<jar jarfile="binary-package.jar" basedir="${dist}"/>
+    </target>
+  
+    <target name="test"
+        description="create dev test environment" >
+	    <!-- Delete the ${build} and ${dist} directory trees -->
+	    <!-- LEAVE IT FOR NOW <delete dir="${test}"/> -->
+
+	    <copy todir="${test}" overwrite="true">
+	       <fileset dir="${dist}/"/>
+	    </copy>
+	    
+	    <copy todir="${test}/etc" overwrite="true">
+	       <fileset file="${content}/test/config.prop"/>
+	    </copy>  
+	    
+	     <!-- Kick the test area -->
+	    <java classname="autohit.common.deployment.KickConfigure">
+	    	<classpath>
+	    	           <pathelement path="${java.class.path}"/>
+	    	           <pathelement path="${dist}/lib/autohitsystem.jar"/>
+	    	           <pathelement path="${dist}/lib/commons-collections.jar"/>
+	         </classpath>
+	    	<arg value="${test}"/> 
+	    </java>
+
+	    <!-- Run the configuration -->	    
+	    <!-- build factory defaults -->
+	    <java classname="autohit.common.deployment.DeploymentConfigure">
+	    	<classpath>
+	    	           <pathelement path="${java.class.path}"/>
+	    	           <pathelement path="${dist}/lib/autohitsystem.jar"/>
+	    	           <pathelement path="${dist}/lib/commons-collections.jar"/>
+	         </classpath>
+	    	<arg value="config"/> 
+	    	<arg value="factory"/> 
+	    	<arg value="${test}"/>
+	    	<arg value="config.prop"/>
+	    </java>	    
+	        
+    </target>
+  
+      <target name="freshen"
+        description="update the test environment with the new build" >
+
+   	    <!-- JAR it -->
+    	    <jar jarfile="${dist}/lib/autohitsystem.jar" basedir="${bin}"/>
+
+   	    <!-- COPY it -->
+	    <copy todir="${test}/lib" overwrite="true">
+	       <fileset file="${dist}/lib/autohitsystem.jar"/>
+	    </copy>
+	         
+    </target>
+  
+</project>

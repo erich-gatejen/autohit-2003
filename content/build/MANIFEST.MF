@@ -1,0 +1,10 @@
+Manifest-Version: 1.0 
+Class-Path: 
+ autohitsystem.jar 
+ commons-collections.jar 
+ commons-net-1.0.0.jar 
+ commons-httpclient-2.0.jar 
+ mailapi.jar  
+ activation.jar 
+ commons-logging.jar 
+

@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#F0E6E1">
+<p>name: <strong><font size="+1">TextWriterModule</font></strong><br>
+  class: <strong>autohit.call.modules.TextWriterModule</strong></p>
+<p> It will write strings and lines to a universe object or a buffer. The buffer 
+  is the same as used in SimLang, which is a java StringBuffer. You must start 
+  a session before you write anything. Chose the start method based where you 
+  want to write--a BUFFER or a UNIverse object.</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>startbuffer<font size="+1"></font><font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">parameters:</div></td>
+    <td><strong>&quot;buffer&quot;</strong> (REQUIRED): A buffer. Be sure to pass 
+      the buffer by reference, rather than value.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Start a write session to a buffer.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>startuni<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;objname&quot;</strong> (REQUIRED): The universe object that 
+      will be read.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Start a write to a universe object. If something happens to the universe 
+      object during the session such that the module can no longer write to it, 
+      the session will become invalid and the module will throw a fault.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">write</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;string&quot;</strong> (REQUIRED): A string to write.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td>It will write the string to the open session. It will not write a line 
+      seperator.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">writeln</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;string&quot;</strong> (REQUIRED): A string to write.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr valign="top"> 
+    <td><div align="right">description:</div></td>
+    <td>It will write the string to the open session. It will WILL write line 
+      seperator. It will use whatever is appropriate for the system on which it 
+      is running.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">done</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td><p>Close read. It is a VERY GOOD IDEA to do this for any session!</p></td>
+  </tr>
+</table>
+<p><font size="-6">AUTOHIT 2003<br>
+  MODULES DOCUMENTATION<br>
+  Copyright Erich P Gatejen (c) 1989,1997,2003,2004<br>
+  See license for details.</font></p>
+</body>
+</html>

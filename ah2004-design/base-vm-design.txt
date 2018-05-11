@@ -1,0 +1,73 @@
+
+================================================================================
+INSTRUCTIONS
+	
+name	OPERAND		ACTION			RESULT			BINARY
+------- --------------  ---------------------	--------------------	------
+
+nop									0
+
+load	VALUE					VALUE -> left		1
+
+fetch	NAME		core(NAME) -> left	core(NAME) -> left	2
+
+store   NAME		left -> core(NAME)	left -> core(NAME)	3
+
+new	NAME		allocate(NAME)		left -> core(NAME)	4
+
+scope									5
+
+rscope									6
+
+push			left -> STACK(top)				7
+
+pop						STACK(top) -> left	8
+
+call			call STACK(top)		result -> left		9
+
+subr			subroutine STACK(top)	result -> left		10
+
+ret			return STACK(top)				11
+
+method	METHODNAME	method(left,METHODNAME) result -> left		12
+
+add			left + STACK(top)	result -> left		13
+
+sub			left - STACK(top)	result -> left		14
+
+div			left / STACK(top)	result -> left		15
+
+mul			left * STACK(top)	result -> left		16
+
+cmp			left compare STACK(top) result -> left		17
+
+eval			eval(left)		result -> left		18
+
+jump	OFFSET		IP + OFFSET					19
+
+if	OFFSET		if(left!=0) jump OFFSET				20
+
+ifgt	OFFSET		if(left>0)  jump OFFSET				21
+
+fault	NAME								22
+
+assert	OFFSET		if( core(NAME) != null/empty ) jump OFFSET	23
+
+================================================================================
+BINARY FORMAT
+
+--- Instruction ----------------------------------
+
+BINARY.OPERAND_STRING
+
+BINARY 		= 32bit integer
+
+OPERAND_STRING	= UTF-16 String 	
+
+
+
+================================================================================
+
+- compare - Text compare
+
+

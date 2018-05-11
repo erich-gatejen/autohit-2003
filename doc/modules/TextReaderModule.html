@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#F0E6E1">
+<p>name: <strong><font size="+1">TextReaderModule</font></strong><br>
+  class: <strong>autohit.call.modules.TextReaderModule</strong></p>
+<p> Text reader module. It'll supply lines or tokens out of a text source. The 
+  source can be a String or a Universe object. If you start a new session over 
+  an old one, it will throw a fault. You must call done() first..</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>startstring<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;string&quot;</strong> (REQUIRED): The string that will be 
+      read.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Start a read on a target string.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>startuni<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;objname&quot;</strong> (REQUIRED): The universe object that 
+      will be read.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr> 
+    <td height="25"><div align="right">description:</div></td>
+    <td> Start a read on a universe object.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">line</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td>Full line of text or an empty string.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><div align="right">description:</div></td>
+    <td>Get the next full line. If currently reading tokens in a line, it will 
+      give the whole contents of the current line. If there is nothing left to 
+      read, it will return an empty string. You must use hasmore() to detect the 
+      end<br>
+      of a read.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">token</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td>The next token or an empty string.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><div align="right">description:</div></td>
+    <td>Get the next whitespace delimited token. It'll eat as many empty lines 
+      as neccessary to find the next token. If there is nothing left to read, 
+      it will return an empty string. You must use hasmore() to detect the end 
+      of a read.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">hasmore</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td>&quot;true&quot; or &quot;false&quot;</td>
+  </tr>
+  <tr valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td>Returns &quot;true&quot; if there are any more tokens to read, otherwise 
+      &quot;false.&quot;</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">done</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td><p>Close read. It is a VERY GOOD IDEA to do this for any session!</p></td>
+  </tr>
+</table>
+<p><font size="-6">AUTOHIT 2003<br>
+  MODULES DOCUMENTATION<br>
+  Copyright Erich P Gatejen (c) 1989,1997,2003,2004<br>
+  See license for details.</font></p>
+</body>
+</html>

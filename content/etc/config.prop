@@ -1,0 +1,10 @@
+# DEFAULT CONFIGURATION FILE
+
+######################################
+# SYSTEM PROPERTIES
+######################################
+
+# Default root for autohit installation
+ROOT=..root dir..
+JAVA_EXEC=..location of java executable..
+

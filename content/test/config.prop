@@ -1,0 +1,8 @@
+# DEFAULT CONFIGURATION FILE
+
+######################################
+# SYSTEM PROPERTIES
+######################################
+
+# Default root for autohit installation
+ROOT=/dev/autohit/test

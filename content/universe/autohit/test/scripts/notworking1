@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	First working test script
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/notworking">Not Working 1</name>
+   	<version	num="1"/>
+   	<note>
+   		This script should not work.
+   		Test broken MATH, FOR, CALL, and SUBR.
+   		1- Bad operation on MATH
+   		2- Bad eval= on MATH
+   		3- Poorly cunstructed FOR:  value="-10"
+   		4- Bad CALL to call name="LOGGGOOOOOOOSIEEE"
+   		5- Bad SUBR to subroutine name="zoinkzoinkzoinkzoink"
+   		
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+
+	<set name="Datestamp" value="0" new="new"/>
+	<call name="DATE" result="Datestamp"></call>
+	<call name="LOG">
+		<set name="entry" eval="The datestamp is set as: $Datestamp$"/></call>
+
+	<!-- MATH test -->
+	<set name="Variable" value="10" new="new"/>
+        <set name="Variable2" eval="1$Variable$"/>
+        <math left="Variable" oper="H" value="2" output="destinationVar"/>
+        <math left="Variable" oper="+" eval="$aaaaa$" output="destinationVar2"/>
+	<call name="LOG">
+		<set name="entry" eval="The values for the variables are: Variable1=$Variable$ Variable2=$Variable2$"/></call>
+	<call name="LOG">
+		<set name="entry" eval="The values for dest vars are: destinationVar=$destinationVar$ destinationVar2=$destinationVar2$"/></call>
+
+	<!-- FOR test -->
+	<set name="rover" value="-10" new="new"/>
+	<for count="countForTest" value="-10">
+        	<!-- do this -->
+       		<math left="rover" oper="+" value="1" output="rover"/>
+         	<call name="LOG">
+			<set name="entry" eval="FOR interation=$countForTest$"/></call>
+         	<call name="LOG">
+			<set name="entry" eval="FOR rover=$rover$"/></call>
+        </for>
+ 	<call name="LOGGGOOOOOOOSIEEE">
+		<set name="entry" eval="FOR Final rover=$rover$"/></call>
+	
+	<!-- SUBR test -->
+	<set name="subresult" value="0" new="new"/>
+	<subroutine name="zoinkzoinkzoinkzoink" result="subresult">
+		<set name="Input" value="100"/> 
+	</subroutine> 
+ 	<call name="LOG">
+		<set name="entry" eval="SUBROUTINE Final result=$subresult$"/></call>	
+
+   </code>
+
+</sim>

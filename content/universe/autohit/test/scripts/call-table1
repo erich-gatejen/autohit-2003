@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Tests the table calls
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/table1">Table test 1</name>
+   	<version	num="1"/>
+   	<note>
+   		This script should actually work.
+   		Tests NEW_TABLE, INSERT_TABLE, GET_TABLE, DELETE_TABLE, REMOVE_TABLE
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:call-table1 start"/></call>
+
+	<set name="Datestamp" value="0" new="new"/>
+	<call name="DATE" result="Datestamp"></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:call-table1: The datestamp is set as: $Datestamp$"/></call>
+
+	<!-- Load the table -->
+	<call name="NEW_TABLE"><set name="name" value="testtable"/></call>
+	<call name="INSERT_TABLE"><set name="name" value="testtable"/>
+		<set name="n" value="item 1"/>
+		<set name="v" value="ITEM 1 ONE"/></call>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:call-table1:INSERT_TABLE 1: ITEM 1 ONE"/></call> 
+	<call name="INSERT_TABLE"><set name="name" value="testtable"/>
+		<set name="n" value="item2"/>
+		<set name="v" eval="ITEM 2 TWO"/></call>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:call-table1:INSERT_TABLE 2: ITEM 2 TWO"/></call> 		
+	<call name="INSERT_TABLE"><set name="name" value="testtable"/>
+		<set name="n" value="item  3"/>
+		<set name="v" eval="ITEM 3 THREE"/></call>
+	<call name="LOG"><set name="entry" eval="INSERT_TABLE 3: ITEM 3 THREE"/></call> 	
+
+	<!-- Get from the table -->
+ 	<call name="GET_TABLE" result="tempthang"><set name="name" value="testtable"/>
+		<set name="n" value="item 1"/></call>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:call-table1:GET_TABLE 1: $tempthang$"/></call>   	
+ 	<call name="GET_TABLE" result="tempthang"><set name="name" value="testtable"/>
+		<set name="n" value="item2"/></call>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:call-table1:GET_TABLE 2: $tempthang$"/></call>   		
+ 	<call name="GET_TABLE" result="tempthang"><set name="name" value="testtable"/>
+		<set name="n" value="item  3"/></call>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:call-table1:GET_TABLE 3: $tempthang$"/></call> 
+	
+	<!-- remove from table -->	
+ 	<call name="DELETE_TABLE" result="tempthang"><set name="name" value="testtable"/>
+		<set name="n" value="item2"/></call>	
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:call-table1:GET_TABLE 2 after REMOVE.  The next command should cause an error."/></call>   	
+ 	<call name="GET_TABLE" result="blankthang"><set name="name" value="testtable"/>
+		<set name="n" value="item2"/></call>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:call-table1:GET_TABLE 2 after REMOVE.  It should be blank: $blankthang$"/></call>   	
+	      
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:call-table1:REMOVE_TABLE"/></call>
+ 	<call name="REMOVE_TABLE"><set name="name" value="testtable"/></call>
+		
+	<!-- try to access removed table -->	
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:call-table1:Try to access removed table.  The next command should cause an error."/></call>
+ 	<call name="GET_TABLE" result="tempthang"><set name="name" value="testtable"/>
+		<set name="n" value="item2"/></call>
+
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:call-table1 done"/></call>
+	
+   </code>
+
+</sim>

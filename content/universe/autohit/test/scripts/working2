@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	First working test script
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/working2">Working 2</name>
+   	<version	num="1"/>
+   	<note>
+   		This script should actually work.
+   		Test MATH, FOR, CALL, and SUBR
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:working2"/></call>
+		
+	<set name="Datestamp" value="0" new="new"/>
+	<call name="DATE" result="Datestamp"></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working2:The datestamp is set as: $Datestamp$"/></call>
+
+	<!-- MATH test -->
+	<set name="Variable" value="10" new="new"/>
+        <set name="Variable2" eval="1$Variable$"/>
+        <math left="Variable" oper="+" value="2" output="destinationVar"/>
+        <math left="Variable" oper="+" eval="$Variable2$" output="destinationVar2"/>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working2:The values for the variables are: Variable1=$Variable$ Variable2=$Variable2$"/></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working2:The values for dest vars are: destinationVar=$destinationVar$ destinationVar2=$destinationVar2$"/></call>
+
+	<!-- FOR test -->
+	<set name="rover" value="0" new="new"/>
+	<for count="countForTest" value="10">
+        	<!-- do this -->
+       		<math left="rover" oper="+" value="1" output="rover"/>
+         	<call name="LOG">
+			<set name="entry" eval="TEST:GOOD:working2:FOR interation=$countForTest$"/></call>
+         	<call name="LOG">
+			<set name="entry" eval="TEST:GOOD:working2:FOR rover=$rover$"/></call>
+        </for>
+ 	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working2:FOR Final rover=$rover$"/></call>
+	
+	<!-- SUBR test -->
+	<set name="subresult" value="0" new="new"/>
+	<subroutine name="autohit/test/scripts/working2-sub1" result="subresult">
+		<set name="Input" value="100"/> 
+	</subroutine> 
+ 	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working2:SUBROUTINE Final result=$subresult$"/></call>	
+
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:working2 done"/></call>
+
+   </code>
+
+</sim>

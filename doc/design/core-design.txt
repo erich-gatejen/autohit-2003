@@ -1,0 +1,67 @@
+AUTOHIT 2003 
+
+!!!!!!!!!!!!!!!  DESIGN DOCUMENTATION  !!!!!!!!!!!!!!!!!!!!!!!
+
+CORE (MEMORY SYSTEM) DESIGN
+
+!!!!!!!!!!!!!!!  DESIGN DOCUMENTATION  !!!!!!!!!!!!!!!!!!!!!!!
+
+Copyright Erich P Gatejen (c) 1989,1997,2003
+ALL RIGHTS RESERVED. See license for details.
+==============================================================================
+STORAGE
+==============================================================================
+There are four storage mechanisms.
+
+1- A UNIVERSE: A persistent store accessible by everyone and addressable by
+name.
+
+2- ENVIRONMENT core:  A shared store accessible by everyone containing 
+name/value pairs.  There is only one per system, so all references point to a
+single static instance.
+set()
+read()
+test()
+lock()
+unlock()
+waitingLock()
+
+3- PERSISTANT core:  An owned store per VM that contains name/object pairs.  It
+is not subject to scope rules.  There can only be one instance of any named
+object.  It is implemented as a HashMap.
+persist()
+free()
+has()
+get()
+
+4- STORAGE code: An owned store per VM that contains name/value pairs.  It is
+subject to scope rules.  Within the reference of a single scope, there is only
+one valid instance of a new instance is created, it will supercede the previous.
+The storage system uses Stacks on HashMaps to maintain scope rules.  When the
+scope is discarded, it will take all instances with it.  Of course, any instances
+created in the prior scope(s) will still be there.
+store()
+remove()
+exists()
+fetch()
+replace()
+
+==============================================================================
+PROPERTIES
+==============================================================================
+There are two kinds of properties.  
+
+1- SYSTEM PROPERTIES
+	- Set in the configuration files or read at command time.
+	- They are man-readable name/value pairs.
+	- They are read when the System Context is created.
+	- They can be read by a program with the call READPROP.
+
+1- INVOKER PROPERTIES
+	- Set at command time or read at command time (from the 
+	  default universe).
+	- They are man-readable name/value pairs.
+	- They are mirrored into the root scope of a VM when it starts, so
+	  they are immeadiately accessable.
+
+

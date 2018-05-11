@@ -1,0 +1,213 @@
+AUTOHIT 2003 
+
+USER GUIDE DOCUMENTATION
+
+Copyright Erich P Gatejen (c) 1989,1997,2003,2004
+See license for details.
+
+==============================================================================
+ABOUT
+==============================================================================
+
+Autohit is an XML script harness targeted to testing rather than 
+production systems.  It has been (still is?) used in several QA organizations
+that have added an extensive array of custom modules.  The idea has been to let 
+seasoned Java coders write java modules that provide the core testing
+functionality, while less experienced testers could write the XML scripts to
+run the tests.The XML scripts are compiled and executed in a VM.  In practice,
+it has been a lot faster than one would expect from a second VM layer. 
+
+Do not expect this to be an example of high quality, well written software.
+Over time, this project turned into an experimental playground and thus 
+certain designs are a bit hokey.  There are a few unfinished components and
+a couple seemingly useless features.  Either they were a good idea at the time
+or someone specifically asked me to add it.  Not all ideas age well.
+
+I'm releasing this system under the GPL because I don't foresee any major new
+additions.  There will be maintenance releases, as my current (un-paying) 
+customers ask me for fixes or small additions.  However, my intention is to
+move into a new experimental playground, where the sand is fresh and the 
+kids know new games.  I will not be accepting requests from anyone that
+isn't using it before 5 May 2004.
+
+==============================================================================
+SETUP
+==============================================================================
+
+=== PREREQUISITES ===
+This should run on any Java platform, though the startup and helper scripts 
+are currently only in Windows.  (Look under /bin to find them all.)  If you
+translate them to your platform, they should work.
+
+You need:
+- Java 1.4.2 or higher.  It must be in the path and JAVA_HOME must be set as
+an environment variable.  (This is usually done by the java installer.)
+
+=== WINDOWS INSTALL ===
+Choose where you want to install it.  We'll call that <install_root> for the
+rest of this document.  DO NOT USE DRIVE LETTERS (For example, d:\bin\ah 
+should look like \bin\ah.)  It will go on any drive in a windows environment,
+but you must run any commands from that drive.
+
+1- Unpack the product to <install_root> 
+2- Edit file <install_root>\etc\config.prop.  Use forward slashes for the path.
+	- Change ROOT to <install_root>
+3- Run <install_root>\bin\install.bat <install_root>
+	- example: cd \bin\ah\bin; install.bat /bin/ah
+
+=== UNIX (REDHAT LINUX) INSTALL ===
+Choose where you want to install it.  We'll call that <install_root> for the
+rest of this document.  You'll need to know the path to a java vm executable.
+A typical install would yield this path: /usr/java/j2sdk1.4.2_01
+We'll call it <java_root> for the rest of this document.
+
+The script commands below assume a Redhat 9 environment.  If you've translated
+the scripts to another environment, you may need to make some modifications.
+
+1- Unpack the product to <install_root>.
+	- You can do this by copying the JAR to this directory and running
+          the command: <java_root>/bin/jar xf binary-package.jar
+
+2- Change permissions on scripts with the following command:
+	chmod 755 <install_root>/bin/*
+
+3- Edit file <install_root>/etc/config.prop.  Use forward slashes for the path.
+	- Change ROOT to <install_root>
+	- Change JAVA_EXEC to <java_root>/bin/java
+	- The lines will look something like as follows, depending on where
+          java and autohit are installed:
+
+	# Default root for autohit installation
+	
+ROOT=/autohit
+
+	JAVA_EXEC=/usr/java/j2sdk1.4.2_01/bin/java
+
+4- Change directory to the <install_root>/bin
+
+5- Run the installer with the following command:
+	./install.sh <install_root> <java_root>/bin/java
+
+	- The command look something like as follows, depending on where
+          java and autohit are installed: 
+	  ./install.sh /autohit /usr/java/j2sdk1.4.2_01/bin/java
+
+!!!WARNING!!! !!!WARNING!!! !!!WARNING!!! !!!WARNING!!! !!!WARNING!!!
+Having classpath set as an environment variable *may* cause problems.  If 
+you get a lot of classloading errors when starting anything, this is the prime
+suspect.  Clear it out and it should help.  Note that the startup scripts 
+set classpath themselves.  If you've translated the scripts, triple check them
+if you have startup problems.
+
+==============================================================================
+CONFIGURATION
+==============================================================================
+
+Default configuration is done in the file etc/default.prop.  When starting
+a stand alone system with default configuration, it will use these properties.
+WHEN IN DOUBT, use this file!
+
+The default configuration as installed should be able to run many of test
+scripts without modification.
+
+==============================================================================
+TEST INSTALL
+==============================================================================
+
+You can start the simple CLI by running cli.bat under <install_root>\bin
+
+The following sequence will run a script:
+	compile com/misterboogers/scripts/pingboogers
+	dump com/misterboogers/scripts/pingboogers
+	run com/misterboogers/scripts/pingboogers
+
+==============================================================================
+BASIC CONCEPTS
+==============================================================================
+
+-- A UNIVERSE ------
+A universe is where you keep your data and scripts.
+
+The default universe is specified in the configuration properties.  The 
+out-of-the-box configuration sets the default universe as being the files
+under <install_root>\universe.  The namespace for file-based universe items
+is just like most file systems.  For example, for the default universe, the 
+universe name 'com/misterboogers/scripts/pingboogers' points to the file
+<install_root>\com\misterboogers\scripts\pingboogers.  the file has no
+extension (though the software can handle extensions).
+
+Advanced uses of Autohit can have multiple universes with different
+implementations than a file system.
+
+-- SimLanguage -----
+This is one of the script languages that Autohit Supports.  SimLanguage
+scripts are written in XML.  The format of the scripts must be valid XML.
+
+==============================================================================
+TEXT COMMANDS
+==============================================================================
+
+Text commands can be used though a number of interfaces.  For some of them,
+see the section on INVOKERS.  All invokers will use the same commands, in the
+same formats, as listed below.
+
+compile (name)  - This will compile a script in the default universe.
+
+dump (name)	- This will dump the binary form of a compiled script in the 
+                  default universe.
+
+run (name) {vm}	- This will run a script in the default universe.
+			name = name of universe object to run
+			vm (optional) = VM class to use.  Default is SimVM.
+
+ps		- Get a process list by PID.  It will be in the form:
+		  cmdid|pid|state numeric|state name|root program
+		  Where,
+			cmdid 		= Command ID
+			pid   		= Process ID
+			state numeric	= Number value of the process state.
+			state name	= Process state (man-readable).
+			root program	= Name of the root program
+
+kill (pid)	- Kill a process identified by the pid.	
+
+set (name=value) - This will set and invoker property.  it will be visible to
+                   any programs started by this invoker.  It expects a name
+                   value pair, seperated by a '='.  Everything  to the right
+                   of the equals sign to the end of the string will be put in
+                   the property.  The property will remain until the invoker
+                   dies or the property is replaced.
+
+props		- Lists the invoker properties.
+
+==============================================================================
+INVOKERS
+==============================================================================
+
+The invokers bring up an instance of Autohit.  The examples assume a WINDOWS
+enviroment, but all the same scripts exist for *NIX.
+
+They are:
+
+-- SimpleCLI --------------------------------------------------------
+This is a simple command line interface for text commands.  It can be 
+started by running <install_root>\bin\cli.bat.  It supports all the Text
+Commands.
+
+-- SingleCommandLine -----------------------------------------------
+This will allow you to run a single SimpleCLI command from your platform 
+command shell.  It can be started with:
+	 <install_root>\bin\command.bat "command {parameters}'
+where 'command' is a single string containing the command you want.  If there
+are any spaces in the command string, be sure to contain it in quotes. 
+ 
+for example:
+   <install_root>\bin\command.bat "dump com/misterboogers/scripts/pingboogers"
+
+This accepts Text Commands.
+
+
+
+
+
+

@@ -1,0 +1,39 @@
+Add standard format for Event data
+
+Add test scripts for TextReaderModule, SimpleScannerModule, and Call_DUMP2LOG
+
+Parameter checking for subroutine calls
+
+Create "SHEET" module.
+
+Find a way to shortcut Module parameter passing
+
+Precompile shipping scripts
+
+Fixup Universe so it deals with DataSources
+
+In MimeMessageModule, make body part filenames optional.
+
+In MimeMessageModule, explore message encoding while converting to a string.  Should be able to set an optional encoding.
+	- In general the encodings are a mess.
+
+Add <else> logic to <if>
+
+String seeking - deal with lower v. upper case.
+
+Better string handling in Scan module
+
+Clarify the difference between get, getStream, getObject, etc in Universe.
+
+Add a finally section
+
+Make CommandAtoms carry unique IDs
+
+DOCUMENT : The logging drains all require sender IDs.  They are supposed to be set by the Atom creators.
+           SimpleInjector will let you set a default.
+
+
+Add log line size props to SimpleSystemContext
+
+Looks like "Expire executables out of the cache when a compile occurs" is back
+

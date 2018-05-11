@@ -1,0 +1,58 @@
+# DEFAULT PROPERTIES
+
+######################################
+# SYSTEM PROPERTIES
+######################################
+
+# Default root for autohit installation
+root ={{ROOT}}
+
+# Debugging flag
+debug =true
+wire =false
+
+# System Context class
+bootstrap.context.class =autohit.server.SimpleSystemContext
+
+######################################
+# LOGGING for AutohitLogManager
+######################################
+
+# Logger type for control and client loggers.  Type class is not implemented.
+# (file,console,class)
+log.control.type =console
+log.client.type =console
+
+# Default logging location (FULL PATH without extension)
+# useful only if log.type is set to file.
+log.control.location ={{ROOT}}/log/control
+log.client.location ={{ROOT}}/log/client
+
+# Pretty print setting (true|false)
+log.pretty =true
+
+# Timestamp setting (true|false)
+log.stamp =true
+
+# Limit is the max entry size.  Size is the characters max per line.
+log.linelimit =16000
+log.linesize = 180
+
+######################################
+# ROOT UNIVERSE
+######################################
+universe.root.path=
+universe.root.config=
+universe.root.handle=
+
+######################################
+# SOCKET RELAY SERVICE
+######################################
+#service.socketrelay.destination.addr=
+#service.socketrelay.destination.port=6060
+service.socketrelay.wire =false
+
+######################################
+# HTTP COMMAND SERVICE
+######################################
+#service.httpcommand.server.port=6061

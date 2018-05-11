@@ -1,0 +1,44 @@
+AUTOHIT 2003 
+
+!!!!!!!!!!!!!!!  DESIGN DOCUMENTATION  !!!!!!!!!!!!!!!!!!!!!!!
+
+UNIVERSE DESIGN
+
+!!!!!!!!!!!!!!!  DESIGN DOCUMENTATION  !!!!!!!!!!!!!!!!!!!!!!!
+
+Copyright Erich P Gatejen (c) 1989,1997,2003
+ALL RIGHTS RESERVED. See license for details.
+==============================================================================
+
+DEFAULT UNIVERSE
+
+--- UNIVERSE -----------------------
+
+ universe -
+    |
+    |
+    |--- autohit  - TEST 
+    |               + scripts, data, etc used for testing autohit
+    |               + not required.  modify at will.
+    |
+    |--- com      - SAMPLES
+    |               + scripts, data, etc provides as samples
+    |               + not required.  modify at will.
+    |
+    |--- config   - AUTHORATIVE CONFIGURATION
+    |               + properties and data sets
+    |               + required for root universe, modify only offline
+    |
+    |---- data    - TRANSIENT, MAPPED, DYNAMIC
+    |               + contains data areas
+    |               + required for root universe, don't modify                              
+    |
+    |--- cache    - TRANSIENT cache space
+    |               + cache for resolved and compiled objects
+    |               + required for root, never modify, delete offline
+    |
+    |---- bin     - AUTHORATIVE, STATIC
+    |               + executables of any form
+    |
+    |---- temp    - TRANSIENT
+                    + temporary space, modify offline

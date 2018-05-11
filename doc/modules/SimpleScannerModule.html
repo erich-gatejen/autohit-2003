@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#F0E6E1">
+<p>name: <strong><font size="+1">SimpleScannerModule</font></strong><br>
+  class: <strong>autohit.call.modules.SimpleScannerModule</strong></p>
+<p> A simple string scanner module. It's useful for verification. There is a cursor 
+  that marks the current position of the scan into the target string. The cursor 
+  starts at the first character in the string--index of zero. It can be moved 
+  forward with various commands or back the the beginning with &quot;reset.&quot;</p>
+<p>You must &quot;start&quot; a session before you can do anything. All other 
+  methods may throw a <em>fault</em> error if they are called before a session 
+  if started. It uses the java.util.regex package for pattern matching. You must 
+  add patterns before they can be matched. They are cached for the life of this 
+  module. It will maintain a cursor into the scan target. the cursor can me<br>
+  modified or reset with various methods.</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>start<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;target&quot;</strong> (REQUIRED): The string that will be 
+      scanned.</td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">description:</div></td>
+    <td>Starts a session</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>add<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;url&quot;</strong> (REQUIRED): Name of the pattern.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;pattern&quot;</strong> (REQUIRED): The pattern to be added.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="38"><div align="right">description:</div></td>
+    <td>Add a regular expression pattern. If one of the same name already exists, 
+      it will be replaced. See the java.util.regex package for a description of 
+      the supported expressions.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">reset</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr> 
+    <td><div align="right">description:</div></td>
+    <td>Reset the cursor to the beginning of the target.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>find<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;name&quot;</strong> (REQUIRED): Name of the pattern to find.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">returns: </div></td>
+    <td>Length of the found pattern or &quot;0&quot; if not found.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="38"><div align="right">description:</div></td>
+    <td>Find a pattern using a regular expression. The pattern must have been 
+      previously added. If found, the cursor is left at the beginning of the pattern, 
+      otherwise it is unmoved.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">seek</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;string&quot;</strong> (REQUIRED): An exact string to find.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">returns: </div></td>
+    <td>&quot;true&quot; if found, otherwise &quot;false&quot;.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="38"><div align="right">description:</div></td>
+    <td>Find an exact string, not using regular expressions. If found, the cursor 
+      is left at the beginning of the string, otherwise it is unmoved.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">seekinsensitive</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;string&quot;</strong> (REQUIRED): An string to find.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">returns: </div></td>
+    <td>&quot;true&quot; if found, otherwise &quot;false&quot;.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="38"><div align="right">description:</div></td>
+    <td>Find a string without regard to case, not using regular expressions. If 
+      found, the cursor is left at the beginning of the string, otherwise it is 
+      unmoved.</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">substring</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;start&quot;</strong> (REQUIRED): Index of the first character 
+      in the substring.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right"></div></td>
+    <td><strong>&quot;string&quot;</strong> (REQUIRED): Index of the last character 
+      in the substring plus one.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">returns: </div></td>
+    <td>The substring</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="44"><div align="right">description:</div></td>
+    <td>This returns a substring from the target. It will use start and end as 
+      the frame. End points to the character after the last character in the string. 
+      (This is just like with the String.substring() in java.)</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">set</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;spot&quot;</strong> (REQUIRED): The index of the spot to 
+      put the cursor.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="44"><div align="right">description:</div></td>
+    <td><p>This is the spot to put the cursor. The string starts from index 0. 
+        If the spot is out of bounds, you'll get an error and the cursor will 
+        stay where it is.</p>
+      </td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;<font size="+2">get</font>&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><em>none</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">returns: </div></td>
+    <td>The position of the cursor.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="25"><div align="right">description:</div></td>
+    <td><p>This will return the current position of the cursor.</p></td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#400040"> 
+    <td width="11%" height="32"><div align="center"><font color="#FFFFFF"> method</font></div></td>
+    <td width="89%" height="32"><font color="#FFFFFF" size="+2"><strong> <font size="+1">&quot;</font>move<font size="+1">&quot;</font></strong></font></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">parameters:</div></td>
+    <td><strong>&quot;add&quot;</strong> (REQUIRED): Move the cursor forward by 
+      this number.</td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td><div align="right">returns: </div></td>
+    <td><em>nothing</em></td>
+  </tr>
+  <tr align="left" valign="top"> 
+    <td height="44"><div align="right">description:</div></td>
+    <td>Move the cursor forward. If the new position is out of bounds, you'll<br>
+      get an error and the cursor will stay where it is.</td>
+  </tr>
+</table>
+<p><font size="-6">AUTOHIT 2003<br>
+  MODULES DOCUMENTATION<br>
+  Copyright Erich P Gatejen (c) 1989,1997,2003,2004<br>
+  See license for details.</font></p>
+</body>
+</html>

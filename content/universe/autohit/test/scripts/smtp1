@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Module test 3
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/smtp1">Simple SMPTP Test 1</name>
+   	<version	num="1"/>
+   	<note>
+   		Test the part of Simple SMTP module.  You can pass "tag" as the 
+   		run name and "mailserver" as the host name of the target server.  They
+   		will default to 1 and localhost.
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:smtp1 start"/></call>
+		
+	<set name="Datestamp" value="0" new="new"/>
+	<call name="DATE" result="Datestamp"></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:smtp1:The datestamp is set as: $Datestamp$"/></call>
+
+	<!-- ASSERT OPTIONAL PROPERTIES -->
+	<set name="mailserverlocal" value="localhost" new="new"/>
+	<assert item="mailserver">
+		<set name="mailserverlocal" ref="mailserver"/>
+	</assert>
+	<set name="targetlocal" value="goat@misterboogers.com" new="new"/>
+	<assert item="target">
+		<set name="targetlocal" ref="target"/>
+	</assert>
+	<set name="tag" value="1" new="new"/>
+	<assert item="id">
+		<set name="tag" ref="id"/>
+	</assert>
+
+	<!-- CREATE INSTANCES -->
+	<call name="INSTANCE">
+		<set name="type" value="autohit.call.modules.MIMEMessageModule"/>
+		<set name="name" value="mime"/></call>
+	<call name="INSTANCE">
+		<set name="type" value="autohit.call.modules.SimpleSmtpModule"/>
+		<set name="name" value="smtp"/></call>
+
+	<!-- 1 NON-MULTIPART INSTANCE, NO ENCODING -->
+	<method name="mime" method="start"/>
+	<method name="mime" method="from">
+		<set name="address" value="goat@goatly.com"/>
+		<set name="personal" value="Goat Boy"/></method>
+	<method name="mime" method="to">
+		<set name="address" eval="$targetlocal$"/>
+		<set name="personal" value="The Getter Goat"/></method>
+	<method name="mime" method="cc">
+		<set name="address" value="ccgoat2@goatplace.com"/>
+		<set name="personal" value="The Getter Goat CC"/></method>
+	<method name="mime" method="bcc">
+		<set name="address" value="togoat2@goatplace.com"/>
+		<set name="personal" value="The Getter Goat BCC"/></method>
+	<method name="mime" method="subject">
+		<set name="string" value="Get some goat stuff!"/></method>
+	<method name="mime" method="header">
+		<set name="n" value="X-GOAT-HEADER"/>
+		<set name="v" value="secret_goat_code_1218421"/></method>
+	<buffer name="message1-text" clear="clear">This is plain crap to put
+	in the message because this is just text.  blah blah blah.  Buy
+	Goat stuff!  Goat stuff make you happy.
+	</buffer>
+	<method name="mime" method="addcontent">
+		<set name="text" buffer="message1-text"/></method>	
+	<method name="mime" method="save"/>
+	<method name="mime" method="tostring" result="message1"/>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:smtp1: Message prepared"/></call>
+	<method name="mime" method="touni">
+		<set name="uniobj" eval="autohit/test/dump/smtpmessage1-$tag$.txt"/></method>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:smtp1: Message 1 saved to autohit/test/dump/message1-$tag$.txt"/></call>
+
+	<!-- TEXT -->
+	<method name="smtp" method="mailit" result="response">
+		<set name="to" eval="$targetlocal$"/>
+		<set name="from" value="coder@misterboogers.com"/>
+		<set name="text" ref="message1"/>
+		<set name="host" ref="mailserverlocal"/></method>	
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:smtp1: Message 1 sent as text.  SMTP response=$response$"/></call>
+
+	
+	<!-- UNI -->
+	<method name="smtp" method="mailituni" result="response">
+		<set name="to" eval="$targetlocal$"/>
+		<set name="from" value="coder2@misterboogers.com"/>
+		<set name="uniobj" eval="autohit/test/dump/smtpmessage1-$tag$.txt"/>
+		<set name="host" ref="mailserverlocal"/>
+		<set name="port" value="25"/></method>
+	<call name="LOG"><set name="entry" eval="TEST:GOOD:smtp1: Message 1 sent as universe object.  SMTP response=$response$"/></call>
+		
+	<!-- DONE -->
+	<call name="FREE"><set name="name" value="mime"/></call>
+	<call name="FREE"><set name="name" value="smtp"/></call>			
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:smtp1 done"/></call>		
+	
+   </code>
+
+</sim>

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Module test 1
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/stopwatch1">Stopwatch 1</name>
+   	<version	num="1"/>
+   	<note>
+   		Test the Stopwatch Module
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:working3 start"/></call>
+		
+	<set name="Datestamp" value="0" new="new"/>
+	<call name="DATE" result="Datestamp"></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:stopwatch1:The datestamp is set as: $Datestamp$"/></call>
+
+	<!-- CREATE A STOPWATCH -->
+	<call name="INSTANCE">
+		<set name="type" value="autohit.call.modules.StopwatchModule"/>
+		<set name="name" value="stopwatch"/></call>
+
+	<!-- WHILE and IF test -->
+	<set name="rover" value="0" new="new"/>
+	<set name="whileflag" value="1" new="new"/>
+	<while name="whileflag" value="1">
+       		<math left="rover" oper="+" value="1" output="rover"/>		
+	        <if item="rover" value="10">
+        		<set name="whileflag" value="0"/>
+      			<call name="LOG">
+				<set name="entry" eval="TEST:GOOD:stopwatch1:ROVER FLAGS end of while rover=$rover$"/></call>   		
+       		</if>
+		
+		<!-- PREP -->
+	      	<call name="LOG">
+			<set name="entry" value="TEST:GOOD:stopwatch1:Start stopwatch and wait for 5 seconds."/></call>
+		<call name="METHOD"><set name="name" value="stopwatch"/>	
+			<set name="method" value="start"/></call>
+
+		<!-- WAIT -->
+	      	<call name="WAIT">
+			<set name="millis" value="5000"/></call>
+
+		<!--REPORT THE STOPWATCH -->
+		<call name="METHOD" result="timeseconds"><set name="name" value="stopwatch"/>	
+			<set name="method" value="time"/></call>
+		<call name="METHOD" result="milliseconds"><set name="name" value="stopwatch"/>	
+			<set name="method" value="millis"/></call>
+			
+	      	<call name="LOG">
+			<set name="entry" eval="TEST:GOOD:stopwatch1:Done wait, stopwatch in seconds= $timeseconds$"/></call>
+	      	<call name="LOG">
+			<set name="entry" eval="TEST:GOOD:stopwatch1:           stopwatch in milliseconds= $milliseconds$"/></call>
+						
+        </while>
+		
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:stopwatch1 done"/></call>		
+	
+   </code>
+
+</sim>

@@ -1,0 +1,118 @@
+AUTOHIT 2003 
+
+SIMLANGUAGE GUIDE DOCUMENTATION
+
+Copyright Erich P Gatejen (c) 1989,1997,2003,2004
+See license for details.
+
+WIP.  See the other documents for more information.
+
+==============================================================================
+CONCEPTS
+==============================================================================
+
+- Every program is well formed XML.  The DTD can be found at /lib/dtd/sim.dtd.
+
+- Every program can be treated as a subroutine.  The <io> section describes
+the input parameters (<input> and <buffer>) and output.  The input parameters
+are just variables that the program expects to find in scope.
+
+- NOTE: The compiler and runtime don't currently verify that the input
+parameters are in scope.  Also, any variable in scope can be used by the 
+program.  So, technically, the inputs are not needed.  HOWEVER, the <output>
+*is* required!  Since subroutine calls work life functions, they can return a
+a result.  The <output> tells it which local variable to return as the result. 
+
+<!ENTITY lt     "&#38;#60;">
+<!ENTITY gt     "&#62;">
+<!ENTITY amp    "&#38;#38;">
+<!ENTITY apos   "&#39;">
+<!ENTITY quot   "&#34;">
+ 
+==============================================================================
+TAGS
+==============================================================================
+HEADER
+<sim>
+	<info>
+		<name>
+		<note>
+		<version>
+		<io>
+			<input>
+			<buffer>
+			<output>	// defines the output var
+	<code>
+		<block>
+		<buffer>
+		<call>
+		<exec>
+		<for>
+		<input>			// always create new
+		<if>
+		<math>
+		<set>			// create new only if tagged
+		<subroutine>
+		<while>
+		<return>		// force an exit from the stript
+		<goto>
+		<label>
+		<assert>
+		<method>
+
+
+==============================================================================
+COMMAND LIST
+==============================================================================
+
+-- HEADER -------------------------------------------------------------
+
+Every program must begin with this header.  There are no exceptions:
+	<?xml version="1.0"?>
+	<!DOCTYPE sim SYSTEM "sim.dtd">
+
+You may follow that with an optional comment section:
+	<!--
+		comment here.  This is a standard XML comment.
+	-->
+
+-- <sim> --------------------------------------------------------------
+
+Wraps the entire program.  It must contain one <info> section and one <code>
+section.
+
+
+-- <info> --------------------------------------------------------------
+
+Contains information about the program.  It has the following sections in 
+the sequence described:
+		<name>		REQUIRED
+		<note>		REQUIRED
+		<version>	REQUIRED
+		<io>		REQUIRED - but may be empty.
+
+
+-- <code> --------------------------------------------------------------
+
+Contains the actual executable.  It must have at least one instruction.
+The instructions are as follows:
+		<block>
+		<buffer>
+		<call>
+		<exec>
+		<for>
+		<input>
+		<if>
+		<math>
+		<set>
+		<subroutine>
+		<while>
+		<return>
+		<goto>
+		<label>
+		<assert>
+
+==============================================================================
+ANNOTATED EXAMPLES
+==============================================================================
+

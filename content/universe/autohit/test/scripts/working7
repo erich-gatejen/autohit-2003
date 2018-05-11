@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Working test script.  However, you must set the props for it to work properly
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/working7">Working 7</name>
+   	<version	num="1"/>
+   	<note>
+   		This script tests setting props.  It expects 3 properties: dog, cat, and mouse.
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:working7"/></call>
+	
+	<!-- PRINT THEM -->		
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working7:Property DOG: $dog$"/></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working2:Property CAT: $cat$"/></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working2:Property MOUSE: $mouse$"/></call>
+
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:working7 done"/></call>
+
+   </code>
+
+</sim>

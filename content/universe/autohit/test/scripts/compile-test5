@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	First test script
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/compile-test5">Compiler test 5</name>
+   	<version	num="1"/>
+   	<note>
+   		This is a compiler test.  Make sure labels can't be in scopes.
+AH0001[15:171012]ERROR Broken IF.  No right value defined defined.
+AH0001[15:171012]Broken jump (GOTO).  No label for black.	
+  			
+   	</note>
+   	<io>
+   		<input name="goatvar"/>
+   		<buffer name="goatbuffer">aaa</buffer>
+   		<input name="otherVar"/>
+   		<output name="returnInfo"/>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<set name="Variable" value="10" new="new"/>
+
+        
+        <goto label="place"/>
+        
+	<buffer name="bobsbuffer" clear="clear"></buffer>
+	<buffer name="bobsbuffer" value="goat"></buffer>
+   
+        <for count="countVar" value="10">
+            <!-- do this -->
+            <buffer name="bobsbuffer" value="more goat"></buffer>
+            <label name="bad"/>
+        </for>
+        
+        <if item="Variable">
+        	<!-- do this -->
+        	<label name="bad3"/>
+        </if>	
+
+   
+    	<label name="zoink"/>  
+   
+   
+   </code>
+
+</sim>

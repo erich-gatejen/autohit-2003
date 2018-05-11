@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	First working test script
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/testreturn1">Test return</name>
+   	<version	num="1"/>
+   	<note>
+   		This script should actually work.
+   		It is mean to test the RETURN instruction.  If it fails, you'll
+   		see a log message saying so.
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:testreturn1 start"/></call>
+
+	<set name="Datestamp" value="0" new="new"/>
+	<call name="DATE" result="Datestamp"></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:testreturn1:The datestamp is set as: $Datestamp$"/></call>
+	
+	<!-- SUBR test -->
+	<set name="subresult" value="0" new="new"/>
+	<subroutine name="autohit/test/scripts/testreturn1-sub1" result="subresult">
+		<set name="Input" value="100"/> 
+	</subroutine> 
+ 	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:testreturn1:TESTRETURN1 regains control.  result from subroutine=$subresult$"/></call>	
+
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:testreturn1 done"/></call>
+
+   </code>
+
+</sim>

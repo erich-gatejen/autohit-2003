@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Fifth test script
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/working5">Working 5</name>
+   	<version	num="1"/>
+   	<note>
+   		This script should actually work.
+   		Test IF operations
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:working4 start.  There should be 7 PASS tests and no fails"/></call>
+		
+	<set name="Datestamp" value="0" new="new"/>
+	<call name="DATE" result="Datestamp"></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:working5:The datestamp is set as: $Datestamp$"/></call>
+
+	<set name="zero" value="0" new="new"/>
+	<set name="small" value="10" new="new"/>
+	
+	<!-- EQ -->
+	<if item="small" value="10" oper="eq">
+		<call name="LOG"><set name="entry" value="TEST:GOOD:working5:PASS 1 small = 10"/></call>
+	</if>
+	<if item="small" value="100" oper="eq">
+		<call name="LOG"><set name="entry" value="TEST:GOOD:working5:FAIL small = 100"/></call>
+	</if>	
+	<if item="zero" value="0" oper="eq">
+		<call name="LOG"><set name="entry" value="TEST:GOOD:working5:PASS 2 zero = 0"/></call>
+	</if>	
+
+
+	<!-- GT -->
+	<if item="small" value="5" oper="gt">
+		<call name="LOG"><set name="entry" value="TEST:GOOD:working5:PASS 3 small gt 5"/></call>
+	</if>
+	<if item="small" value="100" oper="gt">
+		<call name="LOG"><set name="entry" value="TEST:GOOD:working5:FAIL small gt 100"/></call>
+	</if>
+	<if item="small" value="-10" oper="gt">
+		<call name="LOG"><set name="entry" value="TEST:GOOD:working5:PASS 4 small gt -10"/></call>
+	</if>	
+	
+	<!-- LT -->
+	<if item="small" value="100" oper="lt">
+		<call name="LOG"><set name="entry" value="TEST:GOOD:working5:PASS 5 small lt 100"/></call>
+	</if>
+	<if item="small" value="5" oper="lt">
+		<call name="LOG"><set name="entry" value="TEST:GOOD:working5:FAIL small lt 5"/></call>
+	</if>
+	<if item="small" value="-10" oper="eq">
+		<call name="LOG"><set name="entry" value="TEST:GOOD:working5:FAIL small lt -10"/></call>
+	</if>		
+	
+	<!-- NOT -->
+	<if item="small" value="100" oper="not">
+		<call name="LOG"><set name="entry" value="TEST:GOOD:working5:PASS 6 small != 100"/></call>
+	</if>
+	<if item="small" value="10" oper="not">
+		<call name="LOG"><set name="entry" value="TEST:GOOD:working5:FAIL small != 10"/></call>
+	</if>	
+	<if item="zero" value="100" oper="not">
+		<call name="LOG"><set name="entry" value="TEST:GOOD:working5:PASS 7 zero != 100"/></call>
+	</if>
+	
+   </code>
+
+</sim>

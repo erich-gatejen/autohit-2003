@@ -1,0 +1,63 @@
+AUTOHIT 2003 
+
+!!!!!!!!!!!!!!!  DESIGN DOCUMENTATION  !!!!!!!!!!!!!!!!!!!!!!!
+
+KERNEL DESIGN
+
+!!!!!!!!!!!!!!!  DESIGN DOCUMENTATION  !!!!!!!!!!!!!!!!!!!!!!!
+
+Copyright Erich P Gatejen (c) 1989,1997,2003
+ALL RIGHTS RESERVED. See license for details.
+==============================================================================
+
+==============================================================================
+THE KERNEL - BASIC CONCEPTS
+==============================================================================
+
+Every VM runs in a VMProcess implementation.
+
+Kernel is responsible for building and maintaining a list of VMProcess's.
+
+The Kernel is owned by the SystemContext.
+
+The VMProcess controls its own state.  It is not managed or instrumented in
+the Kernel.
+
+Every VMProcess will get a unique PID.  They should never recycle.  (read:
+it would take a very long time.)  It is possible to reuse a VMProcess for more
+than one VM, but don't ask the Kernel to do it.  It will already 'get()' you
+a new one.
+
+==============================================================================
+SYSTEM CONTEXT - BASIC CONCEPTS
+==============================================================================
+
+A SystemContext is the root state of a system.  It is associated to a 
+specific set of properties.  
+
+It is created by a BasicBootstrap, which will read a property file off the 
+local filesystem.
+
+A SystemContext will own the following:
+	- A kernel
+	- A root logger
+	- A root, default universe
+	- A CommandRegistry
+	- A VMLoader
+	- A AutohitLogManager
+	- The System Properties, including load.
+	- The allocation of the Invoker Properties, but not load.
+	- The debugging state.
+
+There are two sets of properties.  The SYSTEM PROPERTIES and INVOKER 
+PROPERTIES.
+	- SYSTEM PROPERTIES:  These are set during bootstrap and should never
+                              change.  It's up to the SystemCOntext to 
+                              load them.  Programs have to explicitly access
+                              them with calls.
+	- INVOKER PROPERTIES: There are a set of properties that can me
+                              modified during runtime.  It's up to the 
+                              invoker to maintain them.  The may be loaded
+                              and saved to/from a universe.  They are
+                              automatically mirrored to a VMCore whenever
+                              a program is started.  

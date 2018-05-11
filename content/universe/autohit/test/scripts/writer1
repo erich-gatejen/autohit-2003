@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Module test 2
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/writer1">TextWriter 1</name>
+   	<version	num="1"/>
+   	<note>
+   		Test the TextWriter Module
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:working3 start"/></call>
+		
+	<set name="Datestamp" value="0" new="new"/>
+	<call name="DATE" result="Datestamp"></call>
+	<call name="LOG">
+		<set name="entry" eval="TEST:GOOD:writer1:The datestamp is set as: $Datestamp$"/></call>
+
+	<!-- CREATE A WRITER -->
+	<call name="INSTANCE">
+		<set name="type" value="autohit.call.modules.TextWriterModule"/>
+		<set name="name" value="textwriter"/></call>
+
+	<!-- BUFFER SESSION -->
+	<buffer name="writebuffer" clear="clear"/>
+	<buffer name="writebuffer" value="This is a buffer to test."/>
+	<call name="METHOD"><set name="name" value="textwriter"/>
+		<set name="method" value="startbuffer"/>
+		<set name="buffer" ref="writebuffer"/>		
+		</call>	
+
+	<call name="METHOD"><set name="name" value="textwriter"/><set name="method" value="writeln"/>
+		<set name="string" value="STRING BUFFER write line.  LINE."/></call>	
+	<call name="METHOD"><set name="name" value="textwriter"/><set name="method" value="writeln"/>
+		<set name="string" value="STRING BUFFER write line.  LINE again."/></call>		
+	<call name="METHOD"><set name="name" value="textwriter"/><set name="method" value="write"/>
+		<set name="string" value="STRING BUFFER write.  NO LINE."/></call>		
+	<call name="METHOD"><set name="name" value="textwriter"/><set name="method" value="writeln"/>
+		<set name="string" value="STRING BUFFER write line.  LINE AGAIN."/></call>	
+	<set name="finalbuffer" buffer="writebuffer" new="new"/>
+	
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:writer1: BUFFER TEST as follows:"/></call>
+	<call name="LOG">
+		<set name="entry" ref="finalbuffer"/></call>
+	
+	<!-- UNIVERSE SESSION -->
+	<call name="METHOD"><set name="name" value="textwriter"/>
+		<set name="method" value="startuni"/>
+		<set name="objname" value="autohit/test/dump/writer1-dump"/>		
+		</call>	
+
+	<call name="METHOD"><set name="name" value="textwriter"/><set name="method" value="writeln"/>
+		<set name="string" eval="UNIVERSE write line.  start=$Datestamp$"/></call>
+	<call name="METHOD"><set name="name" value="textwriter"/><set name="method" value="writeln"/>
+		<set name="string" value="STRING UNIVERSE write line.  LINE."/></call>	
+	<call name="METHOD"><set name="name" value="textwriter"/><set name="method" value="writeln"/>
+		<set name="string" value="STRING UNIVERSE write line.  LINE again."/></call>		
+	<call name="METHOD"><set name="name" value="textwriter"/><set name="method" value="write"/>
+		<set name="string" value="STRING UNIVERSE write.  NO LINE."/></call>		
+	<call name="METHOD"><set name="name" value="textwriter"/><set name="method" value="writeln"/>
+		<set name="string" value="STRING UNIVERSE write line.  LINE AGAIN."/></call>	
+	
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:writer1: UNIVERSE TEST done."/></call>
+
+
+	<!-- FREE RESOURCES -->	
+	<call name="METHOD"><set name="name" value="textwriter"/>
+		<set name="method" value="done"/></call>
+		
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:writer1 done"/></call>		
+	
+   </code>
+
+</sim>

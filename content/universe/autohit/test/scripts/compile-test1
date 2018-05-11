@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	First test script - with errors
+
+AH0002[15:163230]ParseError @line #25:Value "zonk" is not one of the enumerated
+                ] values for this attribute.
+AH0002[15:163230]ParseError @line #31:Attribute "lable" is not declared for
+                ] element "goto".
+AH0002[15:163230]ParseError @line #31:Attribute value for "label" is #REQUIRED.
+AH0002[15:163230]ParseError @line #68:Element "block" does not allow "break"
+                ] here.
+AH0002[15:163230]ParseError @line #68:Element type "break" is not declared.
+AH0002[15:163230]ParseError @line #81:EMPTY content models must have no content.
+AH0002[15:163230]ParseError @line #89:EMPTY content models must have no content.
+AH0001[15:163230]FATAL ParseError @line #93:Expected "</label>" to terminate
+                ] element starting on line 79.
+AH0003[15:163230]XMLCompiler: Unrecoverable parsing error.
+AH0000[15:163230]:Expected "</label>" to terminate element starting on line 79.
+AH0001[15:163230]Command ERROR: compile failed.	
+	
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/compile-test1">Compiler test 1</name>
+   	<version	num="1"/>
+   	<note>
+   		This is a compiler test.  There ARE COMPILE ERRRORS.
+   	</note>
+   	<io>
+   		<input name="goatvar"/>
+   		<buffer name="goatbuffer">aaa</buffer>
+   		<input name="otherVar"/>
+   		<output name="returnInfo"/>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<set name="Variable" value="10" new="zonk"/>
+        <set name="Variable2" eval="$goatvar$"/>
+        <set name="Variable-reference" ref="Variable"/>
+        <math left="Variable" oper="+" value="2" output="destinationVar"/>
+        <math left="Variable" oper="*" eval="$goatvar$" output="destinationVar"/>
+        
+        <goto lable="place"/>
+        
+	<buffer name="bobsbuffer" clear="clear"></buffer>
+	<buffer name="bobsbuffer" value="goat"></buffer>
+	<buffer name="bobsbuffer" eval="$Variable$"/>
+	<buffer name="bobsbuffer" buffer="otherBuffer"/>     
+        <buffer name="bobsbuffer">
+        	Lots of goatly information.
+        	To be had here.
+        </buffer>
+        <buffer name="goatbuffer2"></buffer>
+   
+        <for count="countVar" value="10">
+            <!-- do this -->
+            <buffer name="bobsbuffer" value="more goat"></buffer>
+        </for>
+        
+        <for count="countVar" value="$Variable$">
+            <!-- do this -->
+        </for>
+	
+        <if item="Variable" value="-1">
+        	<!-- do this -->
+        </if>	
+
+        <if item="Variable" eval="$Variable2$">
+        	<!-- do this -->
+        </if>	  	
+   
+   	<block>
+   		<set name="Wibble" value="This var will only be around within this block"/> 
+		<call name="HTTP" result="result">
+			<set name="info" value="goat"/>
+			<set name="header" eval="$Variable2$"/>
+			<set name="goods" ref="Variable2"/>
+			<set name="jack" buffer="bobsbuffer"/>
+   		</call> 	
+   		<break/>
+   		<set name="Wobble" value="Wobble"/> 
+   	</block>
+   
+   	<exec name="autohit.goats.DoGoat" result="result2">
+		<input name="a" value="Goat string"/>
+		<input name="b" eval="$Variable2"/>
+		<input name="c" eval="$Variable2"/>
+		<input name="d" buffer="bobsbuffer"/>
+   	</exec>
+   	
+   	<label name="place">
+   
+	<subroutine name="com/borkitybork/universe/Tester1/TestOb2" result="result">
+   		<set name="Wibble" value="This var will only be around within this block"/> 
+		<set name="info" value="goat"/>
+		<set name="header" eval="$Variable2"/>
+		<set name="goods" eval="$Variable2"/>
+		<set name="jack" buffer="bobsbuffer"/>
+	</subroutine> 
+   
+        <while name="Variable" value="1">
+        	<math left="Variable" oper="+" value="1" output="destinationVar"/>
+        </while>
+   
+   </code>
+
+</sim>

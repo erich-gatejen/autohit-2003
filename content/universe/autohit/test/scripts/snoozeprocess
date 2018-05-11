@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE sim SYSTEM "sim.dtd">
+<!--
+	Module test 2
+-->
+<sim>
+
+   <info>
+   
+   	<name	uid="autohit/test/scripts/snoozeprocess">Process that just snoozes</name>
+   	<version	num="1"/>
+   	<note>
+   		Test CHECK_PROCESS
+   	</note>
+   	<io>
+   	</io>
+   
+   </info>
+   
+   <code>
+	<call name="LOG"><set name="entry"
+		value="TEST:GOOD:snoozeprocess start"/></call>
+	
+	<call name="WAIT">
+		<set name="millis" value="30000"/></call>
+	
+	<!-- DONE -->				
+	<call name="LOG">
+		<set name="entry" value="TEST:GOOD:snoozeprocess done"/></call>		
+	
+   </code>
+
+</sim>

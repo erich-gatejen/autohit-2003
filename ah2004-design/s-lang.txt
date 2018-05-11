@@ -1,0 +1,146 @@
+SIMLANG 1.0
+
+1.0 OVERVIEW
+
+
+
+===============================================================================
+2.0 LANGUAGE
+
+Language is separated into four sections.  Only the INFO section is required.  
+
+info
+data*
+code*
+
+
+
+===============================================================================
+3.0 INFO SECTION
+
+info
+	name
+	owner*
+
+
+
+===============================================================================
+4.0 DATA SECTION
+
+data
+	entity*
+		
+
+===============================================================================
+5.0 CODE SECTION
+
+
+
+
+===============================================================================
+6.0 METHOD SECTION
+
+
+
+
+
+===============================================================================
+
+
+<lang>
+	<info>
+		... INFO and METADATA
+	</info>
+
+	<data>
+		... DATA SPECIFICATIONS
+	</data>
+	
+	<code>
+		... CODE
+	</code>
+	
+	<method>
+		... METHODS
+	</method>
+
+</lang>
+
+===============================================================================
+
+<code>
+	<procedure>
+	
+	</procedure>
+	
+	<trap>
+
+	</trap>
+	
+	<finally>
+	
+	</finally>
+
+</code>
+
+----------------------
+
+<procedure>
+	
+<set/>
+	
+		
+
+	<new/>
+	<math/>
+
+	<if>
+		<true></true>
+		<false></false>
+		<greater></greater>
+		<lesser></lesser>
+	</if>
+	<assert></assert>
+	<switch>
+		<case></case><case></case><default></default></switch>
+	
+	<while></while>
+	
+	
+	<label/>
+	<goto/>
+	</return>
+
+	<system out= >
+		<in/>* </system>
+			
+	<method instance= name= out=>
+		<in/>* </method>
+	
+	<call instance= name= out=>
+		<in/>*	</call>
+
+	<fault name="1" message="Uh oh"/>
+	<error name="1" message="Uh oh"/>
+	<throw ref="event_1"/>
+
+	<table name="x" new="new"/>
+	<table name="x" get="x"/>
+	<table ref="x" put="x"/>
+
+</procedure>
+
+<trap>
+	<fault name="1"></fault>*
+	<error name="1"></error>*
+	<event name="1"></event>*
+	<default></default>*
+</trap>
+
+<finally>
+
+
+</finally>
+
+
+
